@@ -51,6 +51,10 @@ INSTALLED_APPS = [
     'rest_framework_api_key',
     # Rest Swagger
     'drf_spectacular',
+    #Reverse Proxy,
+    'revproxy',
+    # Django Extensions
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
