@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()  # loads the configs from .env
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -96,6 +100,14 @@ WSGI_APPLICATION = 'openbridge.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': str(os.getenv('DB_NAME')),  # Replace 'your_database_name' with the name of your database
+        'USER': str(os.getenv('DB_USER')),  # Replace 'your_database_user' with your PostgreSQL username
+        'PASSWORD': str(os.getenv('DB_USER_PASSWORD')),  # Replace 'your_database_password' with your PostgreSQL password
+        'HOST': str(os.getenv('DB_HOST')),  # Or the hostname or IP address of your PostgreSQL server
+        'PORT': str(os.getenv('DB_PORT')),  # Or the port your PostgreSQL server is listening on
+    },
+    'development': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
