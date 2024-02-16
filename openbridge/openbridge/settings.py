@@ -59,8 +59,6 @@ INSTALLED_APPS = [
     'revproxy',
     # Django Extensions
     'django_extensions',
-    # OpenBridge
-    'openbridge',
 ]
 
 MIDDLEWARE = [
