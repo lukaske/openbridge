@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'revproxy',
     # Django Extensions
     'django_extensions',
+    # OpenBridge
+    'openbridge',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'openbridge.urls'
@@ -151,8 +154,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'OpenBridge API',
-    'DESCRIPTION': 'This is the OpenBridge client API. It is used to interact with the OpenBridge platform. For specific APIs we recommend using their respective documentation.',
+    'TITLE': 'OpenBridge.me API',
+    'DESCRIPTION': 'This is the OpenBridge.me client API. It is used to interact with the OpenBridge.me platform. For specific APIs we recommend using their respective documentation.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
