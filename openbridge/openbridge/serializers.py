@@ -10,7 +10,14 @@ class APIServiceSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class BillingRuleSerializer(serializers.ModelSerializer):
-    api_service = APIServiceSerializer()
+    api_service = serializers.PrimaryKeyRelatedField(queryset=APIService.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request', None)
+        if request and request.user.is_authenticated:
+            self.fields['api_service'].queryset = APIService.objects.filter(owner=request.user)
+
     class Meta:
         model = BillingRule
         fields = '__all__'
