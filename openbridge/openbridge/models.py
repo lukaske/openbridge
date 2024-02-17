@@ -21,7 +21,7 @@ class APIService(models.Model):
     url = models.URLField()
     api_key = models.CharField(max_length=200)
     url_compatible_name = models.CharField(unique=True, validators=[is_alphanumeric], max_length=100)
-    image = models.URLField()
+    image = models.URLField(null=True)
 
     def get_decrypted_key(self):
         return decrypt_string(self.api_key)
