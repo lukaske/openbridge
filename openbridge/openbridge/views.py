@@ -23,7 +23,7 @@ class ServiceProxyView(ProxyView):
 
         key_object = HasServiceAPIKey().get_key_object(request)
         api_object = key_object.api_service
-        #request.META['HTTP_HOST'] = urlparse(api_object.url).netloc
+        request.META['HTTP_HOST'] = urlparse(api_object.url).netloc
         #request.META['CONTENT_TYPE'] = 'text/plain'
         APIRequest.objects.create(
             api_service=api_object,
