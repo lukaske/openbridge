@@ -15,6 +15,13 @@ def root_view(request):
 class ServiceProxyView(ProxyView):
     permission_classes = [HasServiceAPIKey]
 
+    def get_proxy_request_headers(self, request):
+        headers = super().get_proxy_request_headers(request)
+        key_object = HasServiceAPIKey().get_key_object(request)
+        api_object = key_object.api_service
+        headers['Host'] = urlparse(api_object.url).netloc
+        return headers
+
     def dispatch(self, request, path, **kwargs):
         # Check permissions manually
         for permission in self.permission_classes:
@@ -23,8 +30,7 @@ class ServiceProxyView(ProxyView):
 
         key_object = HasServiceAPIKey().get_key_object(request)
         api_object = key_object.api_service
-        request.META['HTTP_HOST'] = urlparse(api_object.url).netloc
-        #request.META['CONTENT_TYPE'] = 'text/plain'
+
         APIRequest.objects.create(
             api_service=api_object,
             path=path,
@@ -35,7 +41,6 @@ class ServiceProxyView(ProxyView):
             details=request.headers # debug
         )
         self.upstream = api_object.url
-
         return super().dispatch(request, path)
 
 class APIServiceViewset(viewsets.ModelViewSet):
