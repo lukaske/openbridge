@@ -20,6 +20,9 @@ class ServiceProxyView(ProxyView):
         key_object = HasServiceAPIKey().get_key_object(request)
         api_object = key_object.api_service
         headers['Host'] = urlparse(api_object.url).netloc
+        has_content_type = headers.get('Content-Type', None)
+        if not has_content_type:
+            headers['Content-Type'] = 'text/plain'
         return headers
 
     def dispatch(self, request, path, **kwargs):
