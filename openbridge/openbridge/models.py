@@ -41,6 +41,7 @@ class ServiceAPIKey(AbstractAPIKey):
         on_delete=models.CASCADE,
         related_name="api_keys",
     )
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.filter(is_superuser=True).first().id)
 
 
     class Meta(AbstractAPIKey.Meta):
@@ -62,11 +63,14 @@ class BillingRule(models.Model):
 
 class APIRequest(models.Model):
     id = models.AutoField(primary_key=True)
-    client = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     api_service = models.ForeignKey(APIService, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    request_path = models.CharField(max_length=200)
-    details = models.TextField()
+    path = models.TextField(null=True)
+    ip = models.CharField(max_length=100, null=True)
+    user_agent = models.TextField(null=True)
+    method = models.CharField(max_length=10, null=True)
+    details = models.TextField(null=True)
 
 class UserBills(models.Model):
     class BillType(models.TextChoices):
