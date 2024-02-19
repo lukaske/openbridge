@@ -1,0 +1,40 @@
+ProxyView created
+ProxyView created
+ProxyView created
+ProxyView created
+Dispatch full path: /b/httpbin/get
+Request headers: {'Content-Type': 'text/plain', 'Authorization': 'Api-Key NogpYIyW.UEkYBwIUEN0PFT7kOnODNVue9306Nvh6', 'User-Agent': 'PostmanRuntime/7.36.3', 'Accept': '*/*', 'Cache-Control': 'no-cache', 'Postman-Token': 'adc0e4fb-c978-4028-8f61-ed25ec1f74dd', 'Connection': 'keep-alive'}
+Request URL: https://httpbin.org/get
+Proxy response header: HTTPHeaderDict({'Date': 'Mon, 19 Feb 2024 17:30:22 GMT', 'Content-Type': 'application/json', 'Content-Length': '534', 'Connection': 'keep-alive', 'Server': 'gunicorn/19.9.0', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true'})
+Proxy response headers: HTTPHeaderDict({'Date': 'Mon, 19 Feb 2024 17:30:22 GMT', 'Content-Type': 'application/json', 'Content-Length': '534', 'Connection': 'keep-alive', 'Server': 'gunicorn/19.9.0', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true'})
+Content-Type: application/json
+Normalizing response headers
+Response headers: {'Content-Type': 'application/json', 'Date': 'Mon, 19 Feb 2024 17:30:22 GMT', 'Content-Length': '534', 'Server': 'gunicorn/19.9.0', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Credentials': 'true'}
+Checking for invalid cookies
+Response cookies: 
+RESPONSE RETURNED: <HttpResponse status_code=200, "application/json">
+ProxyView created
+ProxyView created
+Dispatch full path: /b/petstore/pet/0/
+Request headers: {'Content-Type': 'text/plain', 'Authorization': 'Api-Key BRZecdy0.cDeueLxm5ZsOtOXp2NPv5sxwqRRcyGS6', 'User-Agent': 'PostmanRuntime/7.36.3', 'Accept': '*/*', 'Cache-Control': 'no-cache', 'Postman-Token': '3edf0931-38fe-401d-8d70-555f933a0aa1', 'Connection': 'keep-alive'}
+Request URL: https://petstore3.swagger.io/api/v3/pet/0/
+Proxy response header: HTTPHeaderDict({'Date': 'Mon, 19 Feb 2024 17:32:26 GMT', 'Content-Type': 'application/json', 'Content-Length': '135', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Access-Control-Expose-Headers': 'Content-Disposition', 'Server': 'Jetty(9.4.9.v20180320)'})
+Proxy response headers: HTTPHeaderDict({'Date': 'Mon, 19 Feb 2024 17:32:26 GMT', 'Content-Type': 'application/json', 'Content-Length': '135', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Access-Control-Expose-Headers': 'Content-Disposition', 'Server': 'Jetty(9.4.9.v20180320)'})
+Content-Type: application/json
+Normalizing response headers
+Response headers: {'Content-Type': 'application/json', 'Date': 'Mon, 19 Feb 2024 17:32:26 GMT', 'Content-Length': '135', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Access-Control-Expose-Headers': 'Content-Disposition', 'Server': 'Jetty(9.4.9.v20180320)'}
+Checking for invalid cookies
+Response cookies: 
+RESPONSE RETURNED: <HttpResponse status_code=200, "application/json">
+ProxyView created
+Dispatch full path: /b/petstore/pet/0/
+Request headers: {'Content-Type': 'text/plain', 'Authorization': 'Api-Key BRZecdy0.cDeueLxm5ZsOtOXp2NPv5sxwqRRcyGS6', 'User-Agent': 'PostmanRuntime/7.36.3', 'Accept': '*/*', 'Cache-Control': 'no-cache', 'Postman-Token': '454f9c7f-5230-4f9c-a5f1-c94a7376424a', 'Connection': 'keep-alive'}
+Request URL: https://petstore3.swagger.io/api/v3/pet/0/
+Proxy response header: HTTPHeaderDict({'Date': 'Mon, 19 Feb 2024 17:34:52 GMT', 'Content-Type': 'application/json', 'Content-Length': '135', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Access-Control-Expose-Headers': 'Content-Disposition', 'Server': 'Jetty(9.4.9.v20180320)'})
+Proxy response headers: HTTPHeaderDict({'Date': 'Mon, 19 Feb 2024 17:34:52 GMT', 'Content-Type': 'application/json', 'Content-Length': '135', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Access-Control-Expose-Headers': 'Content-Disposition', 'Server': 'Jetty(9.4.9.v20180320)'})
+Content-Type: application/json
+Normalizing response headers
+Response headers: {'Content-Type': 'application/json', 'Date': 'Mon, 19 Feb 2024 17:34:52 GMT', 'Content-Length': '135', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Access-Control-Expose-Headers': 'Content-Disposition', 'Server': 'Jetty(9.4.9.v20180320)'}
+Checking for invalid cookies
+Response cookies: 
+RESPONSE RETURNED: <HttpResponse status_code=200, "application/json">

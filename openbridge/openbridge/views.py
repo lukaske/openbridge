@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from rest_framework import permissions
 from .permissions import IsOwnerOrReadOnly, IsInheritedOrReadOnly, HasServiceAPIKey
 from django.http import JsonResponse
-from users.models import CustomUser
+from urllib.parse import urlparse
 
 def root_view(request):
     return HttpResponse("Welcome to OpenBridge.me, visit <a href='https://app.openbridge.me'>app.openbridge.me</a> to get started. <br><br> Access API documentation at <a href='/api/'>http://openbridge.me/api/</a>.")
@@ -23,6 +23,7 @@ class ServiceProxyView(ProxyView):
 
         key_object = HasServiceAPIKey().get_key_object(request)
         api_object = key_object.api_service
+        request.META['HTTP_HOST'] = urlparse(api_object.url).netloc
         APIRequest.objects.create(
             api_service=api_object,
             path=path,
@@ -33,6 +34,7 @@ class ServiceProxyView(ProxyView):
             details=request.headers # debug
         )
         self.upstream = api_object.url
+
         return super().dispatch(request, path)
 
 class APIServiceViewset(viewsets.ModelViewSet):

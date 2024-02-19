@@ -5,9 +5,12 @@ User = get_user_model()
 
 class APIServiceSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = APIService
         fields = '__all__'
+        ordering = ['id']
+
 
 class BillingRuleSerializer(serializers.ModelSerializer):
     api_service = serializers.PrimaryKeyRelatedField(queryset=APIService.objects.all())
@@ -21,9 +24,11 @@ class BillingRuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = BillingRule
         fields = '__all__'
+        ordering = ['id']
 
 class UserBillsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserBills
         fields = '__all__'
+        ordering = ['id']
 
