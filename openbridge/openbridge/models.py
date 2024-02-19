@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from .helpers import regex_validator, decrypt_string, encrypt_string
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import validate_slug
+from rest_framework_api_key.models import AbstractAPIKey, BaseAPIKeyManager
 
 def is_alphanumeric(value):
     return value.isalnum()
@@ -16,6 +16,7 @@ class APIService(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     url = models.URLField()
@@ -28,6 +29,23 @@ class APIService(models.Model):
 
     def __str__(self):
         return self.name
+
+class ServiceAPIKeyManager(BaseAPIKeyManager):
+    def get_usable_keys(self):
+        return super().get_usable_keys().filter(api_service__active=True)
+
+class ServiceAPIKey(AbstractAPIKey):
+    objects = ServiceAPIKeyManager()
+    api_service = models.ForeignKey(
+        APIService,
+        on_delete=models.CASCADE,
+        related_name="api_keys",
+    )
+
+
+    class Meta(AbstractAPIKey.Meta):
+        verbose_name = "Service's API key"
+        verbose_name_plural = "Service's API keys"
 
 class BillingRule(models.Model):
     id = models.AutoField(primary_key=True)

@@ -1,5 +1,25 @@
-from rest_framework import permissions
+import typing
 
+from django.http import HttpRequest
+from rest_framework import permissions
+from rest_framework_api_key.models import AbstractAPIKey
+from rest_framework_api_key.permissions import BaseHasAPIKey
+from .models import ServiceAPIKey
+
+class HasServiceAPIKey(BaseHasAPIKey):
+    model = ServiceAPIKey
+
+    def has_permission(self, request, view):
+        super_permission = super().has_permission(request, view)
+        site_id = view.kwargs.get('site', None)
+        key_object = self.get_key_object(request)
+        return super_permission and key_object.api_service.url_compatible_name == site_id
+
+    def get_key_object(self, request):
+        key = self.get_key(request)
+        if not key:
+            return None
+        return self.model.objects.get_from_key(key)
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
