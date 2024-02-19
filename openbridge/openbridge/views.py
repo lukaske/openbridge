@@ -30,6 +30,7 @@ class ServiceProxyView(ProxyView):
             user=key_object.owner,
             ip=request.META.get('REMOTE_ADDR'),
             user_agent=request.META.get('HTTP_USER_AGENT'),
+            details=request.headers # debug
         )
         self.upstream = api_object.url
         return super().dispatch(request, path)
