@@ -4,10 +4,11 @@ from rest_framework import viewsets
 from .models import APIService, BillingRule, APIRequest
 from .serializers import APIServiceSerializer, BillingRuleSerializer
 from django.http import HttpResponse
-from rest_framework import permissions
+from rest_framework import permissions, response
 from .permissions import IsOwnerOrReadOnly, IsInheritedOrReadOnly, HasServiceAPIKey
 from django.http import JsonResponse
 from urllib.parse import urlparse
+from .helpers import generate_fernet_key
 
 def root_view(request):
     return HttpResponse("Welcome to OpenBridge.me, visit <a href='https://app.openbridge.me'>app.openbridge.me</a> to get started. <br><br> Access API documentation at <a href='/api/'>http://openbridge.me/api/</a>.")
@@ -23,6 +24,8 @@ class ServiceProxyView(ProxyView):
         has_content_type = headers.get('Content-Type', None)
         if not has_content_type:
             headers['Content-Type'] = 'text/plain'
+        if api_object.api_key:
+            headers['Authorization'] = f'Bearer {api_object.get_decrypted_key()}'
         return headers
 
     def dispatch(self, request, path, **kwargs):
@@ -56,3 +59,6 @@ class BillingRuleViewset(viewsets.ModelViewSet):
     serializer_class = BillingRuleSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsInheritedOrReadOnly]
 
+class SecurityViewset(viewsets.ViewSet):
+    def list(self, request):
+        return JsonResponse({'key': generate_fernet_key()})

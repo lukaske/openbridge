@@ -9,6 +9,7 @@ def is_alphanumeric(value):
     return value.isalnum()
 
 User = get_user_model()
+
 class APIService(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)

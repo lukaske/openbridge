@@ -19,11 +19,12 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from django.urls import re_path
 from rest_framework.routers import DefaultRouter
-from .views import ServiceProxyView, APIServiceViewset, BillingRuleViewset, root_view
+from .views import ServiceProxyView, APIServiceViewset, BillingRuleViewset, root_view, SecurityViewset
 
 router = DefaultRouter()
 router.register(r'api-service', APIServiceViewset, basename='api-service')
 router.register(r'billing-rule', BillingRuleViewset, basename='billing-rule')
+router.register(r'key-gen', SecurityViewset, basename='key-gen')
 
 urlpatterns = [
     path('', root_view, name='root'),
@@ -35,5 +36,6 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/', include(router.urls)),
+
     re_path(r'b/(?P<site>\w+)/(?P<path>.*)', ServiceProxyView.as_view()),
 ]
