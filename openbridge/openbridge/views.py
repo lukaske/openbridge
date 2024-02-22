@@ -25,7 +25,7 @@ class ServiceProxyView(ProxyView):
         if not has_content_type:
             headers['Content-Type'] = 'text/plain'
         if api_object.api_key:
-            headers['Authorization'] = f'Bearer {api_object.get_decrypted_key()}'
+            headers['Authorization'] = api_object.get_decrypted_key()
         return headers
 
     def dispatch(self, request, path, **kwargs):

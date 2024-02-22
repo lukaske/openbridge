@@ -6,6 +6,9 @@ User = get_user_model()
 
 
 class ApiKeyField(serializers.Field):
+    class Meta:
+        ordering = ['id']
+
     def to_representation(self, value):
         try:
             decrypted = decrypt_string(value)
