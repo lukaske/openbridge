@@ -30,13 +30,13 @@ class APIServiceSerializer(serializers.ModelSerializer):
 
 
 class BillingRuleSerializer(serializers.ModelSerializer):
-    api_service = serializers.PrimaryKeyRelatedField(queryset=APIService.objects.all())
+    api_service = serializers.PrimaryKeyRelatedField(queryset=APIService.objects.all().order_by('id'))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         request = self.context.get('request', None)
         if request and request.user.is_authenticated:
-            self.fields['api_service'].queryset = APIService.objects.filter(owner=request.user)
+            self.fields['api_service'].queryset = APIService.objects.filter(owner=request.user).order_by('id')
 
     class Meta:
         model = BillingRule

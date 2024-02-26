@@ -50,14 +50,17 @@ class ServiceProxyView(ProxyView):
         return super().dispatch(request, path)
 
 class APIServiceViewset(viewsets.ModelViewSet):
-    queryset = APIService.objects.all()
+    queryset = APIService.objects.all().order_by('id')
     serializer_class = APIServiceSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly , IsOwnerOrReadOnly]
 
+
 class BillingRuleViewset(viewsets.ModelViewSet):
-    queryset = BillingRule.objects.all()
+    queryset = BillingRule.objects.all().order_by('id')
     serializer_class = BillingRuleSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsInheritedOrReadOnly]
+
+
 
 class SecurityViewset(viewsets.ViewSet):
     def list(self, request):
