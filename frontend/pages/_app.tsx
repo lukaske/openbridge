@@ -35,8 +35,8 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <NextTopLoader color="#37B24D" shadow="none;" height={2} />
         <MantineProvider theme={{ colorScheme, primaryColor: 'green' }} withGlobalStyles withNormalizeCSS>
-        <NextTopLoader color="#37B24D" shadow="none;" height={2} />
           {!appRoutes.includes(props.router.pathname)?
           <>
             <HeaderAction {...links}/>
