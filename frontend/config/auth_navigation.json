@@ -1,0 +1,11 @@
+{
+    "links": [
+        { "link": "/dashboard", "label": "Glavni meni" },
+        {
+            "link": "/my-forms",
+            "label": "Moji obrazci"
+        },
+        { "link": "/settings", "label": "Nastavitve" }
+    
+      ]
+    }

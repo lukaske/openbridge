@@ -1,0 +1,23 @@
+{
+"links": [
+    { "link": "/", "label": "Predstavitev" },
+    {
+        "link": "/faq",
+        "label": "Pogosta vprašanja"
+    },
+    {
+      "link": "#",
+      "label": "API",
+      "links": [
+        {
+            "link": "/api",
+            "label": "Kaj omogoča?" 
+          },
+        {
+        "link": "/docs",
+        "label": "Dokumentacija"
+      }]},
+    { "link": "/about", "label": "O nas" }
+
+  ]
+}
