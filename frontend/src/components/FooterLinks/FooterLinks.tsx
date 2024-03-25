@@ -2,7 +2,7 @@ import { createStyles, Text, Container, ActionIcon, Group, rem, Title } from '@m
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
 import {IconBuildingBridge} from '@tabler/icons'
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next-nprogress-bar';
 const useStyles = createStyles((theme) => ({
   footer: {
     paddingTop: `calc(${theme.spacing.xl} * 2)`,

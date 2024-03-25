@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NextTopLoader from 'nextjs-toploader';
+import { PagesProgressBar as ProgressBar } from 'next-nprogress-bar';
 import NextApp, { AppProps, AppContext } from 'next/app';
 import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
@@ -35,7 +35,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
       </Head>
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <NextTopLoader color="#37B24D" shadow="none;" height={2} />
+      <ProgressBar color="#37B24D" height="2px" />
         <MantineProvider theme={{ colorScheme, primaryColor: 'green' }} withGlobalStyles withNormalizeCSS>
           {!appRoutes.includes(props.router.pathname)?
           <>

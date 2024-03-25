@@ -40,7 +40,7 @@ import { MainLinks } from '../NavbarSimple/_mainLinks';
 import { Brand} from '../NavbarSimple/_brand';
 import { IconBuildingBridge } from '@tabler/icons';
 import { useCurrentUser } from '../../hooks/auth/useCurrentUser';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next-nprogress-bar';
 
 const useStyles = createStyles((theme) => ({
   header: {

@@ -10,7 +10,7 @@ import {
   Group,
   Button,
 } from '@mantine/core';
-import {useRouter} from 'next/router';  
+import { useRouter } from 'next-nprogress-bar';
 import { useForm } from '@mantine/form';
 import { useLogin } from '../../hooks/auth/useLogin';
 import {useEffect, useState } from 'react'

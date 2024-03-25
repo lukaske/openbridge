@@ -12,7 +12,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next-nprogress-bar';
 import { IconBuildingBridge } from '@tabler/icons';
 
 

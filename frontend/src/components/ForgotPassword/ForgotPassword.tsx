@@ -13,7 +13,7 @@ import {
   rem,
 } from '@mantine/core';
 import { IconArrowLeft } from '@tabler/icons-react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next-nprogress-bar';
 const useStyles = createStyles((theme) => ({
   title: {
     fontSize: rem(26),
