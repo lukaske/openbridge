@@ -83,22 +83,19 @@ export function HeroImageRight() {
         <div className={classes.inner}>
           <div className={classes.content}>
             <Title className={classes.title}>
-              Moderna platforma za {' '}
+              A modern platform for {' '}
               <Text
                 component="span"
                 inherit
                 variant="gradient"
                 gradient={{ from: 'teal', to: 'green' }}
               >
-               spletne obrazce
+               billable APIs
               </Text>{'.'}
             </Title>
 
-            <Text className={classes.description} mt={30}>
-              Z Obrazci.net lahko ustvarite, gostujte in upravljajte spletne obrazce brez programiranja. 
-              Preprosto jih integrirajte z vašo spletno stranjo ali aplikacijo - zahtevnejšim uporabnikom
-              pa nudimo tudi API dostop.
-              
+            <Text className={classes.description} mt={30}> 
+              Got a great AI model? A cool dataset? A useful utility? Share it with the world through Open Bridge, the ultimate billing proxy for your API services.
             </Text>
 
             <Button
@@ -109,7 +106,7 @@ export function HeroImageRight() {
               mt={40}
               onClick={() => push('/login')}
             >
-              Ustvari obrazec →
+              Publish an API →
             </Button>
           </div>
         </div>

@@ -28,7 +28,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   return (
     <>
       <Head>
-        <title>Obrazci.net | Moderni spletni obrazci</title>
+        <title>Open Bridge | Your billable API</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicons/favicon.ico" />
       </Head>

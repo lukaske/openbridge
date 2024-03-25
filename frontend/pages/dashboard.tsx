@@ -34,7 +34,7 @@ import { NavbarSimple } from '../src/components/NavbarSimple/NavbarSimple';
 import { User } from '../src/components/NavbarSimple/_user';
 import { MainLinks } from '../src/components/NavbarSimple/_mainLinks';
 import { Brand} from '../src/components/NavbarSimple/_brand';
-import { IconForms } from '@tabler/icons';
+import { IconBuildingBridge } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -177,12 +177,12 @@ export default function AppShellDemo() {
               />
             </MediaQuery>
           <Group style={{paddingLeft: 7}}>
-          <IconForms
+          <IconBuildingBridge
             size={36}
             strokeWidth={2}
             color={'#40C057'}/> 
             {' '}
-          <Title className={classes.title} size={'xl'}> Obrazci.net</Title>
+          <Title className={classes.title} size={'xl'}> OpenBridge.me</Title>
 
           </Group>
           </div>

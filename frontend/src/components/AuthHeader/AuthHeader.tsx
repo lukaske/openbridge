@@ -13,7 +13,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { IconForms } from '@tabler/icons';
+import { IconBuildingBridge } from '@tabler/icons';
 
 
 
@@ -124,11 +124,11 @@ export function AuthHeader({ links }: HeaderActionProps) {
       <Container className={classes.inner} fluid>
         <Group onClick={() => push('/')} style={{cursor: 'pointer'}}>
           <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
-          <IconForms
+          <IconBuildingBridge
             size={36}
             strokeWidth={2}
             color={'#37B24D'}/> 
-            <Title className={classes.title} size={'xl'}>Obrazci.net</Title>
+            <Title className={classes.title} size={'xl'}>OpenBridge.me</Title>
        </Group>
         <Group spacing={5} className={classes.links}>
           {items}

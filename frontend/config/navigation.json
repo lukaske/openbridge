@@ -1,23 +1,24 @@
 {
 "links": [
-    { "link": "/", "label": "Predstavitev" },
-    {
-        "link": "/faq",
-        "label": "Pogosta vprašanja"
-    },
+    { "link": "/", "label": "Home" },
+    { "link": "/marketplace", "label": "API Marketplace" },
+
     {
       "link": "#",
-      "label": "API",
+      "label": "Open Bridge",
       "links": [
         {
             "link": "/api",
-            "label": "Kaj omogoča?" 
+            "label": "How to use?" 
           },
         {
         "link": "/docs",
-        "label": "Dokumentacija"
-      }]},
-    { "link": "/about", "label": "O nas" }
-
+        "label": "API Docs"
+      },
+      {
+        "link": "/faq",
+        "label": "FAQ"
+    }]
+  }
   ]
 }

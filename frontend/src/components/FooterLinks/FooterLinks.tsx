@@ -1,6 +1,6 @@
 import { createStyles, Text, Container, ActionIcon, Group, rem, Title } from '@mantine/core';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
-import {IconForms} from '@tabler/icons'
+import {IconBuildingBridge} from '@tabler/icons'
 import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 import { useRouter } from 'next/router';
 const useStyles = createStyles((theme) => ({
@@ -148,20 +148,20 @@ export function FooterLinks({ data }: FooterLinksProps) {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo} onClick={() => push('/')}>
-        <IconForms
+        <IconBuildingBridge
     size={36}
     strokeWidth={2}
     color={'#37B24D'}
-  /> <Title size={'xl'} className={classes.title2}>Obrazci.net</Title>
+  /> <Title size={'xl'} className={classes.title2}>Open Bridge</Title>
           <Text size="xs" color="dimmed" className={classes.description}>
-            Moderni spletni obrazci.
+            A Modern API Marketplace.
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
       <Container className={classes.afterFooter}>
         <Text color="dimmed" size="sm">
-          © {today.getFullYear()} Obrazci.net, vse pravice pridržane.
+          © {today.getFullYear()} | openbridge.me
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>

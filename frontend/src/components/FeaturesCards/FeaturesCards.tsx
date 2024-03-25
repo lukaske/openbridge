@@ -9,26 +9,26 @@ import {
   Container,
   rem,
 } from '@mantine/core';
-import { IconGauge, IconUser, IconCookie } from '@tabler/icons-react';
+import { IconHammer, IconApi, IconCoins } from '@tabler/icons-react';
 
 const mockdata = [
   {
-    title: '1. Oblikujte obrazec',
+    title: '1. Build your API',
     description:
-      'V drag-and-drop (povleci-in-spusti) grafičnem urejevalniku dodate željena polja in obrazec oblikujete.',
-    icon: IconGauge,
+      'Begin by building your API according to your specifications and requirements. This could involve creating endpoints, defining data structures, and implementing functionalities that your service will offer.',
+    icon: IconHammer,
   },
   {
-    title: '2. Objavite obrazec',
+    title: '2. Expose it via Open Bridge',
     description:
-      'Generiran obrazec kopirate in objavite na vaši spletni stran ali aplikaciji.',
-    icon: IconUser,
+      'Once your API is ready, leverage OpenBridge to expose it securely to potential consumers via our API Marketplace. OpenBridge acts as a billing proxy, handling payments according to your own set of billing rules.',
+    icon: IconApi,
   },
   {
-    title: '3. Prenesite zbrane odzive',
+    title: '3. Get paid for your services',
     description:
-      'Spremljajte prejete odzive in jih prenesite za nadaljno obdelavo.',
-    icon: IconCookie,
+      "As consumers access your API through the Marketplace, you'll receive payments for the services rendered, allowing you to monetize your API effectively and generate revenue.",
+    icon: IconCoins,
   },
 ];
 
@@ -94,7 +94,7 @@ export function FeaturesCards() {
     <Container size="lg" py="xl">
 
       <Title order={2} className={classes.title} ta="left" mt="sm">
-        Kako deluje platforma?
+        How does it work?
       </Title>
 
       <SimpleGrid cols={3} spacing="xl" mt={25} breakpoints={[{ maxWidth: 'md', cols: 1 }]}>

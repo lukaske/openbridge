@@ -38,7 +38,7 @@ import { NavbarSimple } from '../NavbarSimple/NavbarSimple';
 import { User } from '../NavbarSimple/_user';
 import { MainLinks } from '../NavbarSimple/_mainLinks';
 import { Brand} from '../NavbarSimple/_brand';
-import { IconForms } from '@tabler/icons';
+import { IconBuildingBridge } from '@tabler/icons';
 import { useCurrentUser } from '../../hooks/auth/useCurrentUser';
 import { useRouter } from 'next/router';
 
@@ -191,7 +191,7 @@ export default function MyAppShell(props: any) {
             </MediaQuery>
 
           <Group style={{paddingLeft: 7, cursor: 'pointer'}} onClick={() => push('/')}>
-          <IconForms
+          <IconBuildingBridge
             size={36}
             strokeWidth={2}
             color={'#40C057'}/> 
