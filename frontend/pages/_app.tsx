@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import NextTopLoader from 'nextjs-toploader';
 import NextApp, { AppProps, AppContext } from 'next/app';
 import { getCookie, setCookie } from 'cookies-next';
 import Head from 'next/head';
@@ -35,6 +36,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme, primaryColor: 'green' }} withGlobalStyles withNormalizeCSS>
+        <NextTopLoader color="#37B24D" shadow="none;" height={2} />
           {!appRoutes.includes(props.router.pathname)?
           <>
             <HeaderAction {...links}/>
