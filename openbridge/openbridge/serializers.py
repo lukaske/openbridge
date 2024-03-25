@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import APIService, BillingRule, UserBills
+from .models import APIService, BillingRule, UserBills, ServiceAPIKey
 from .helpers import encrypt_string, decrypt_string
 User = get_user_model()
 
@@ -49,3 +49,8 @@ class UserBillsSerializer(serializers.ModelSerializer):
         fields = '__all__'
         ordering = ['id']
 
+class ServiceAPIKeySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceAPIKey
+        fields = ['id', ]
+        ordering = ['id']
