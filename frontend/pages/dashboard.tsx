@@ -180,7 +180,7 @@ export default function AppShellDemo() {
           <IconBuildingBridge
             size={36}
             strokeWidth={2}
-            color={'#40C057'}/> 
+            color={'# '}/> 
             {' '}
           <Title className={classes.title} size={'xl'}> OpenBridge.me</Title>
 

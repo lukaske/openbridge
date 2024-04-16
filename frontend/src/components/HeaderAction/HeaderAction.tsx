@@ -118,7 +118,7 @@ export function HeaderAction({ links }: HeaderActionProps) {
       </a>
     );
   });
-
+  // style={{borderBottom: '0.0625rem solid #e9ecef'}}
   return (
     <Header height={HEADER_HEIGHT} sx={{ borderBottom: 0 }}>
       <Container className={classes.inner} fluid>
