@@ -106,11 +106,11 @@ WSGI_APPLICATION = 'openbridge.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'development': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db_local.sqlite3',
     },
-    'development': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': str(os.getenv('DB_NAME')),  # Replace 'your_database_name' with the name of your database
         'USER': str(os.getenv('DB_USER')),  # Replace 'your_database_user' with your PostgreSQL username
