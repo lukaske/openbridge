@@ -21,7 +21,10 @@ export default function Marketplace() {
           Find the best APIs for your project. We have a wide range of APIs to choose from.
         </Text>
         <Space h="lg" />
-        <SimpleGrid cols={3}>
+        <SimpleGrid cols={3}       breakpoints={[
+        { maxWidth: 'md', cols: 3, spacing: 'md' },
+        { maxWidth: 'sm', cols: 2, spacing: 'sm' },
+        { maxWidth: 'xs', cols: 1, spacing: 'sm' },]}>
             {isLoading && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
             {!isLoading && services?.results?.map((service: APIService) => (
                 
