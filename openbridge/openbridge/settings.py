@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'corsheaders',
     # Custom User Model
     'users',
 
@@ -70,6 +70,7 @@ AUTH_USER_MODEL = "users.CustomUser"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -106,6 +107,10 @@ WSGI_APPLICATION = 'openbridge.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db_local.sqlite3',
+    },
+    'development': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': str(os.getenv('DB_NAME')),  # Replace 'your_database_name' with the name of your database
         'USER': str(os.getenv('DB_USER')),  # Replace 'your_database_user' with your PostgreSQL username
@@ -113,10 +118,6 @@ DATABASES = {
         'HOST': str(os.getenv('DB_HOST')),  # Or the hostname or IP address of your PostgreSQL server
         'PORT': str(os.getenv('DB_PORT')),  # Or the port your PostgreSQL server is listening on
     },
-    'development': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
 }
 
 
@@ -217,5 +218,6 @@ LOGGING = {
     },
 }
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 SITE_ID=1

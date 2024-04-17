@@ -42,7 +42,7 @@ class ServiceAPIKey(AbstractAPIKey):
         on_delete=models.CASCADE,
         related_name="api_keys",
     )
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=User.objects.filter(is_superuser=True).first().id)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None) #default=User.objects.filter(is_superuser=True).first().id
 
 
     class Meta(AbstractAPIKey.Meta):

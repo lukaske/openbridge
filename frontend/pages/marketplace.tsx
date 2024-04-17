@@ -2,10 +2,15 @@ import { FooterLinks } from "../src/components/FooterLinks/FooterLinks";
 import { Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space } from '@mantine/core';
 import { ActionsGrid } from "../src/components/ActionsGrid/ActionsGrid";
 import { IconShoppingCartFilled } from '@tabler/icons-react';
+import { ServiceCard } from "../src/components/ServiceCard/ServiceCard";
+import { APIService } from "../src/api/model/aPIService";
+import { useApiServiceList } from "../src/api/endpoints/api-service/api-service";
 
 export default function Marketplace() {
 
   const { classes, theme } = useStyles();
+  const { data: services, error, isLoading } = useApiServiceList({ page: 1, format: 'json'});
+  
 
   return (
     <>
@@ -15,7 +20,12 @@ export default function Marketplace() {
         <Text className={classes.description} ta="center" mt='lg'>
           Find the best APIs for your project. We have a wide range of APIs to choose from.
         </Text>
-
+        <Space h="lg" />
+        <SimpleGrid cols={3}>
+            {services?.results?.map((service: APIService) => (
+                <ServiceCard key={service.id} {...service} />
+            ))}
+        </SimpleGrid>
 
     </Container>
 </>

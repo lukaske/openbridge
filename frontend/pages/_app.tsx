@@ -12,6 +12,7 @@ import { FooterLinks } from '../src/components/FooterLinks/FooterLinks';
 import footer from '../config/footer.json';
 import {AuthHeader} from '../src/components/AuthHeader/AuthHeader';
 import MyAppShell from '../src/components/MyAppShell/MyAppShell';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -36,6 +37,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <ProgressBar color="#37B24D" height="2px" />
+      <QueryClientProvider client={new QueryClient()}>
         <MantineProvider theme={{ colorScheme, primaryColor: 'green' }} withGlobalStyles withNormalizeCSS>
           {!appRoutes.includes(props.router.pathname)?
           <>
@@ -48,6 +50,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           }
           <Notifications />
         </MantineProvider>
+        </QueryClientProvider>
       </ColorSchemeProvider>
     </>
   );
