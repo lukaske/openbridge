@@ -1,16 +1,16 @@
 import { FooterLinks } from "../src/components/FooterLinks/FooterLinks";
-import { Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space } from '@mantine/core';
+import { Center, Button, Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space, Skeleton, AspectRatio, Pagination } from '@mantine/core';
 import { ActionsGrid } from "../src/components/ActionsGrid/ActionsGrid";
 import { IconShoppingCartFilled } from '@tabler/icons-react';
 import { ServiceCard } from "../src/components/ServiceCard/ServiceCard";
 import { APIService } from "../src/api/model/aPIService";
 import { useApiServiceList } from "../src/api/endpoints/api-service/api-service";
+import { useState } from "react";
 
 export default function Marketplace() {
-
+  const [activePage, setActivePage] = useState(1);
   const { classes, theme } = useStyles();
-  const { data: services, error, isLoading } = useApiServiceList({ page: 1, format: 'json'});
-  
+  const { data: services, error, isLoading } = useApiServiceList({ page: activePage, format: 'json'});
 
   return (
     <>
@@ -22,10 +22,16 @@ export default function Marketplace() {
         </Text>
         <Space h="lg" />
         <SimpleGrid cols={3}>
-            {services?.results?.map((service: APIService) => (
+            {isLoading && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
+            {!isLoading && services?.results?.map((service: APIService) => (
+                
                 <ServiceCard key={service.id} {...service} />
             ))}
+
         </SimpleGrid>
+        <Center>
+            <Pagination disabled={isLoading} ta="center" mt="lg" mb="lg" value={activePage} onChange={setActivePage} total={Math.ceil(services?.count / 10) || 1} />
+        </Center>
 
     </Container>
 </>

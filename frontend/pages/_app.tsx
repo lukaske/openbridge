@@ -43,6 +43,8 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
           <>
             <HeaderAction {...links}/>
             <Component {...pageProps}/>
+            <FooterLinks {...footer.props}/>
+
           </>:
             <MyAppShell>
               <Component {...pageProps}/>

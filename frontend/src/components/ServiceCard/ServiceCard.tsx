@@ -1,4 +1,4 @@
-import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
+import { Card, Image, Text, Badge, Button, Group, Anchor, ScrollArea, Grid } from '@mantine/core';
 import { APIService } from '../../api/model/aPIService';  
 
 export   function ServiceCard(service: APIService) {
@@ -6,25 +6,29 @@ export   function ServiceCard(service: APIService) {
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
         <Image
-          src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png"
+          src={service.image || 'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png'} 
           height={160}
           alt="Cover image"
         />
       </Card.Section>
 
-      <Group justify="space-between" mt="md" mb="xs" style={{rowGap: 0}}>
-        <Text fw={500}>Norway Fjord Adventures</Text>
-        <Badge color="green">Active</Badge>
-        <Text size='xs'>Operator: 505 Solutions</Text>
+      <ScrollArea mt="md"  h={180}>
+
+      <Group justify="space-between" mb="xs" style={{rowGap: 0}}>
+        <Grid style={{width: '100%'}}>
+          <Grid.Col span={8}><Text fw={500}>{service.name}</Text></Grid.Col>
+          <Grid.Col span={4}>{service.active? <Badge style={{float: 'right'}} color="lime">Available</Badge>: <Badge style={{float: 'right'}}  color="red">Unavailable</Badge>}</Grid.Col>
+        </Grid>
+        <Text style={{width: '100%'}}  size='xs'>Operator: {service.service_provider}</Text>
       </Group>
+        <Text size="xs" c="dimmed">
+          {service.description}
+        </Text>
 
-      <Text size="sm" c="dimmed">
-        With Fjord Tours you can explore more of the magical fjord landscapes with tours and
-        activities on and around the fjords of Norway
-      </Text>
+      </ScrollArea>
 
-      <Button variant="gradient" gradient={{ from: 'teal', to: 'limegreen' }} fullWidth mt="md" radius="md">
-        Get started
+      <Button disabled={!service.active} fullWidth mt="md" radius="md">
+        Activate API
       </Button>
     </Card>
   );
