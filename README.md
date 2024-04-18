@@ -16,10 +16,4 @@
  ## Ekipa
  Luka Skeledžija
 
-```SQL
-SELECT DISTINCT love
-FROM heart
-WHERE passion = 'SQL'
-AND admiration = 'unconditional'
-ORDER BY depth DESC;
-```
+ ---
