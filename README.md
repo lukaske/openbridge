@@ -2,7 +2,7 @@
  Projekt pri predmetu OPB na Fakulteti za matematiko in fiziko
 
  ## Osnovna ideja
- Izdelati spletno aplikacijo, ki omogoča lažjo monetizacijo obstoječih API storitev. Primer uporabe je npr. doma narejen AI model (ali več le teh), dostopen prek svojega lastnega API. Z uporabo Openbridge, lahko ponudnik v trgovini `API Marketplace` objavi svoje API storitve. Le-te lahko nato najamejo drugi uporabniki in za API klice plačujejo po shemi pay-as-you-go. V tehničnem smislu Openbridge deluje tako, da za vsako API storitev ustvari svoj URL in uporabniški API ključ. Vsi zahtevki so posredovani ponudniku storitve (deluje kot proxy), pri tem pa beleži uporabo in zaračunava stroške na podlagi cenika, ki ga za posamezne API klice določi ponudnik (od tukaj billing proxy).  
+ Izdelati spletno aplikacijo, ki omogoča lažjo monetizacijo obstoječih API storitev. Primer uporabe je npr. doma narejen AI model (ali več le teh), dostopen prek svojega lastnega API. Z uporabo Openbridge, lahko ponudnik v trgovini `API Marketplace` objavi svoje API storitve. Le-te lahko nato najamejo drugi uporabniki in za API klice plačujejo po shemi pay-as-you-go. V tehničnem smislu Openbridge deluje tako, da za vsako API storitev ustvari svoj URL in uporabniški API ključ. Vsi zahtevki so posredovani ponudniku storitve (deluje kot proxy), pri tem pa beleži uporabo in zaračunava stroške na podlagi cenika, ki ga za posamezne API klice določi ponudnik (zato billing proxy).  
 
  ## Spletna stran
 - Aplikacija: [https://app.openbridge.me/](https://app.openbridge.me/)
