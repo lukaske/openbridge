@@ -38,10 +38,10 @@ export function RegisrationTitle() {
 
     // functions will be used to validate values at corresponding key
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Neveljaven email naslov'),
-      password: (value) => (value.length < 8 ? 'Geslo mora biti dolgo vsaj 8 znakov' : null),
-      vpassword: (value, values) => value !== values.password ? 'Gesli se ne ujemata!' : null,
-      terms: (value) => value ? null : 'Strinjati se morate s pogoji uporabe',
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email address'),
+      password: (value) => (value.length < 8 ? 'Password must be at least 8 characters long' : null),
+      vpassword: (value, values) => value !== values.password ? "Passwords don't match!" : null,
+      terms: (value) => value ? null : 'You must agree to terms of use',
     },
   });
 
@@ -51,26 +51,26 @@ export function RegisrationTitle() {
         align="center"
         sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
       >
-        Registracija
+        Registration
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Že imate uporabniški račun?{' '}
+        Already have an account?{' '}
         <Anchor size="sm" component="button" onClick={() => push('/login')}>
-            Prijava
+            Login
         </Anchor>
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={form.onSubmit(registerMe)}>
-        <TextInput type='email' label="Email" placeholder="uporabnik@email.com" required {...form.getInputProps('email')}  />
-        <PasswordInput label="Geslo" placeholder="Vaše geslo" required mt="md" {...form.getInputProps('password')} />
-        <PasswordInput label="Ponovite geslo" placeholder="Ponovno vnesite geslo" required mt="md" {...form.getInputProps('vpassword')} />
+        <TextInput type='email' label="Email" placeholder="sherlock.holmes@email.com" required {...form.getInputProps('email')}  />
+        <PasswordInput label="Password" placeholder="********" required mt="md" {...form.getInputProps('password')} />
+        <PasswordInput label="Repeat password" placeholder="********" required mt="md" {...form.getInputProps('vpassword')} />
         <Group position="apart" mt="lg">
-          <Checkbox label="Strinjam se s pogoji uporabe" defaultChecked {...form.getInputProps('terms')} />
+          <Checkbox label="I agree with the terms of use" defaultChecked {...form.getInputProps('terms')} />
         </Group>
 
         <Button loading={loginProcessing} fullWidth mt="xl" type='submit'>
-          Ustvari račun
+          Create an account
         </Button>
         </form>
       </Paper>

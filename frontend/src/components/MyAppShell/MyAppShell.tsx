@@ -171,7 +171,7 @@ export default function MyAppShell(props: any) {
   
           <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
             <IconLogout className={classes.linkIcon} stroke={1.5} />
-            <span>Odjava</span>
+            <span>Odjava 123</span>
           </a>
         </Navbar.Section>
       </Navbar>

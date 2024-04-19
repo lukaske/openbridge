@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { use, useState } from 'react';
 import {
   AppShell,
   Navbar,
@@ -35,6 +35,8 @@ import { User } from '../src/components/NavbarSimple/_user';
 import { MainLinks } from '../src/components/NavbarSimple/_mainLinks';
 import { Brand} from '../src/components/NavbarSimple/_brand';
 import { IconBuildingBridge } from '@tabler/icons';
+import { useLogout } from '../src/hooks/auth/useLogout';
+import { useRouter } from 'next-nprogress-bar';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -113,11 +115,21 @@ const data = [
 
 
 
+
+
 export default function AppShellDemo() {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Billing');
+  const { logout } = useLogout();
+  const { push } = useRouter();
+
+  const logoutWrapper = (e: any) => {
+    e.preventDefault();
+    logout();
+    push('/login');
+  }
 
   const links = data.map((item) => (
     <a
@@ -156,7 +168,7 @@ export default function AppShellDemo() {
             <span>Nastavitve</span>
           </a>
   
-          <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+          <a href="#" className={classes.link} onClick={(event) => logoutWrapper(event)}>
             <IconLogout className={classes.linkIcon} stroke={1.5} />
             <span>Odjava</span>
           </a>

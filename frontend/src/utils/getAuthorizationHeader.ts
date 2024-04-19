@@ -1,12 +1,13 @@
 import Cookies from "js-cookie";
+import { Jwt } from "../api/model";
 
 export function getAuthorizationHeader() {
-  const currentUser = Cookies.get("currentUser");
-  if(!currentUser) {
+  const authCookie: string | undefined = Cookies.get("currentUser");
+  if(!authCookie) {
     return {};
   }
-  let token = JSON.parse(currentUser || "")?.access || "";
-
+  let token:Jwt = JSON.parse(authCookie)?.access || "";
+  console.log(JSON.parse(authCookie))
   return {
     Authorization: `Bearer ${token}`,
   };

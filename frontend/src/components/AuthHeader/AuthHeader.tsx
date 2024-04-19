@@ -136,7 +136,7 @@ export function AuthHeader({ links }: HeaderActionProps) {
         <Button radius="xl" h={30}               variant="gradient"
               gradient={{ from: 'teal', to: 'limegreen' }} onClick={() => push('/login')}
 >
-          Odjava
+          Odjava 13
         </Button>
       </Container>
     </Header>

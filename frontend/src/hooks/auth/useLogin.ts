@@ -5,11 +5,12 @@ import { time } from "console";
 
 export const useLogin = () => {
   const login = async (input : LoginForm) => {
-    const user = await authService.login(input);
-    if (user) {
-      Cookies.set("currentUser", JSON.stringify(user));
+    const jwt = await authService.login(input);
+    if (!jwt) {
+      return;
     }
-    return user as UserToken;
+    Cookies.set("currentUser", JSON.stringify(jwt));
+    return jwt.user;
   };
 
   return { login };

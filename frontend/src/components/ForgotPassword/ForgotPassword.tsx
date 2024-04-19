@@ -41,22 +41,22 @@ export function ForgotPassword() {
   return (
     <Container size={460} my={100} >
       <Title className={classes.title} align="center">
-        Pozabljeno geslo?
+        Forgotten password?
       </Title>
       <Text c="dimmed" fz="sm" ta="center">
-        Vnesite vaš email naslov za ponastavitev.
+        Enter your email to reset password.
       </Text>
 
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-        <TextInput label="Email" placeholder="uporabnik@email.com" required />
+        <TextInput label="Email" placeholder="sherlock.holmes@email.com" required />
         <Group position="apart" mt="lg" className={classes.controls}>
           <Anchor color="dimmed" size="sm" className={classes.control}>
             <Center inline>
               <IconArrowLeft size={rem(12)} stroke={1.5} />
-              <Box ml={5} onClick={() => push('/login')}>Nazaj na prijavo</Box>
+              <Box ml={5} onClick={() => push('/login')}>Back to login</Box>
             </Center>
           </Anchor>
-          <Button className={classes.control}>Ponastavi geslo</Button>
+          <Button className={classes.control}>Request password reset</Button>
         </Group>
       </Paper>
     </Container>
