@@ -1,63 +1,79 @@
 import {
-  createStyles,
+  TextInput,
+  Button,
+  Anchor,
   Paper,
   Title,
   Text,
-  TextInput,
-  Button,
   Container,
   Group,
-  Anchor,
-  Center,
-  Box,
-  rem,
 } from '@mantine/core';
-import { IconArrowLeft } from '@tabler/icons-react';
 import { useRouter } from 'next-nprogress-bar';
-const useStyles = createStyles((theme) => ({
-  title: {
-    fontSize: rem(26),
-    fontWeight: 900,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-  },
+import { useForm } from '@mantine/form';
+import { authPasswordResetCreate } from '../../api/endpoints/auth/auth';
+import { useState } from 'react';
+import { PasswordReset as PR } from '../../api/model/passwordReset';
 
-  controls: {
-    [theme.fn.smallerThan('xs')]: {
-      flexDirection: 'column-reverse',
-    },
-  },
-
-  control: {
-    [theme.fn.smallerThan('xs')]: {
-      width: '100%',
-      textAlign: 'center',
-    },
-  },
-}));
-
-export function ForgotPassword() {
-  const { classes } = useStyles();
+export function PasswordReset() {
   const { push } = useRouter();
+  const [resetProcessing, setResetProcessing] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleReset = async (email: string) => {
+    const data: PR = { email };
+    setResetProcessing(true);
+    try {
+      await authPasswordResetCreate(data);
+      setIsSuccess(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setResetProcessing(false);
+    }
+  };
+
+  const form = useForm({
+    initialValues: { email: '' },
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+    },
+  });
+
   return (
-    <Container size={460} my={100} >
-      <Title className={classes.title} align="center">
+    <Container size={460} my={100}>
+      <Title
+        align="center"
+        sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}`, fontWeight: 900 })}
+      >
         Forgotten password?
       </Title>
-      <Text c="dimmed" fz="sm" ta="center">
+      <Text color="dimmed" size="sm" align="center">
         Enter your email to reset password.
       </Text>
 
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
-        <TextInput label="Email" placeholder="sherlock.holmes@email.com" required />
-        <Group position="apart" mt="lg" className={classes.controls}>
-          <Anchor color="dimmed" size="sm" className={classes.control}>
-            <Center inline>
-              <IconArrowLeft size={rem(12)} stroke={1.5} />
-              <Box ml={5} onClick={() => push('/login')}>Back to login</Box>
-            </Center>
-          </Anchor>
-          <Button className={classes.control}>Request password reset</Button>
-        </Group>
+        {isSuccess ? (
+          <Text align="center" size="lg" weight={700}>
+            Password reset email has been sent
+          </Text>
+        ) : null}
+        <form onSubmit={form.onSubmit((input) => handleReset(input.email))}>
+          <TextInput
+            type="email"
+            label="Email"
+            placeholder="sherlock.holmes@email.com"
+            required
+            {...form.getInputProps('email')}
+          />
+          <Group position="apart" mt="lg">
+            <Anchor color="dimmed" size="sm" onClick={() => push('/login')}>
+              Back to login
+            </Anchor>
+            <Button loading={resetProcessing} type="submit">
+              Request password reset
+            </Button>
+          </Group>
+        </form>
       </Paper>
     </Container>
   );
