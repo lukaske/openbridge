@@ -13,7 +13,10 @@ import {
   rem,
   createStyles,
   Group,
-  getStylesRef
+  getStylesRef,
+  Badge,
+  Button,
+  useMantineColorScheme,
 } from '@mantine/core';
 import {
   IconBellRinging,
@@ -28,14 +31,28 @@ import {
   IconClipboardText,
   IconMailbox,
   IconTimeline,
+  IconCoin,
+  IconCoins,
+  IconCloudDataConnection,
+  IconNetwork,
+  IconApi,
+  IconAccessPoint,
+  IconUserCircle,
+  IconUser,
+  IconWorldCode,
+  IconWorldCheck,
+  IconSun,
+  IconMoon,
 } from '@tabler/icons-react';
 
+import { ColorSchemeToggle } from '../src/components/ColorSchemeToggle/ColorSchemeToggle';
 import { NavbarSimple } from '../src/components/NavbarSimple/NavbarSimple';
 import { User } from '../src/components/NavbarSimple/_user';
 import { MainLinks } from '../src/components/NavbarSimple/_mainLinks';
 import { Brand} from '../src/components/NavbarSimple/_brand';
 import { IconBuildingBridge } from '@tabler/icons';
 import { useLogout } from '../src/hooks/auth/useLogout';
+import { useCurrentUser } from '../src/hooks/auth/useCurrentUser';
 import { useRouter } from 'next-nprogress-bar';
 
 const useStyles = createStyles((theme) => ({
@@ -92,6 +109,10 @@ const useStyles = createStyles((theme) => ({
     marginRight: theme.spacing.sm,
   },
 
+  description: {
+  },
+
+
   linkActive: {
     '&, &:hover': {
       backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
@@ -106,9 +127,10 @@ const useStyles = createStyles((theme) => ({
 
 
 const data = [
-  { link: '', label: 'Moji obrazci', icon: IconClipboardText },
-  { link: '', label: 'Prejeti odzivi', icon: IconDatabaseImport },
-  { link: '', label: 'Analitika', icon: IconTimeline },
+  { link: '', label: 'My APIs', icon: IconWorldCode },
+  { link: '', label: 'Activated APIs', icon: IconWorldCheck },
+  { link: '', label: 'Billing', icon: IconCoins },
+  { link: '', label: 'Analytics', icon: IconTimeline },
 
 ];
 
@@ -124,6 +146,8 @@ export default function AppShellDemo() {
   const [active, setActive] = useState('Billing');
   const { logout } = useLogout();
   const { push } = useRouter();
+  const {user, refetchUser} = useCurrentUser();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   const logoutWrapper = (e: any) => {
     e.preventDefault();
@@ -165,12 +189,12 @@ export default function AppShellDemo() {
         <Navbar.Section className={classes.footer}>
           <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
             <IconSettings className={classes.linkIcon} stroke={1.5} />
-            <span>Nastavitve</span>
+            <span>Settings</span>
           </a>
   
           <a href="#" className={classes.link} onClick={(event) => logoutWrapper(event)}>
             <IconLogout className={classes.linkIcon} stroke={1.5} />
-            <span>Odjava</span>
+            <span>Logout</span>
           </a>
         </Navbar.Section>
       </Navbar>
@@ -188,15 +212,18 @@ export default function AppShellDemo() {
                 mr="xl"
               />
             </MediaQuery>
-          <Group style={{paddingLeft: 7}}>
+          <Group style={{paddingLeft: 7, cursor: 'pointer'}} onClick={() => push('/')}>
           <IconBuildingBridge
             size={36}
             strokeWidth={2}
-            color={'# '}/> 
-            {' '}
-          <Title className={classes.title} size={'xl'}> OpenBridge.me</Title>
-
+            color={'#37B24D'}/> 
+            <Title className={classes.title} size={'lg'}>Open Bridge</Title>
           </Group>
+          <Group style={{marginLeft: 'auto'}} >
+            {colorScheme === 'dark' ? <Button onClick={() => toggleColorScheme()} rightIcon={<IconSun size={16} />}  variant='transparent'><Title size='sm'>{user?.user.email}</Title></Button> : 
+            <Button onClick={() => toggleColorScheme()} rightIcon={<IconMoon size={16} />}  variant='transparent'><Title size='sm'>{user?.user.email}</Title></Button>} 
+          </Group>
+
           </div>
         </Header>
       }

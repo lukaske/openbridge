@@ -14,13 +14,13 @@ import { authPasswordResetCreate } from '../../api/endpoints/auth/auth';
 import { useState } from 'react';
 import { PasswordReset as PR } from '../../api/model/passwordReset';
 
-export function PasswordReset() {
+export function ForgotPassword() {
   const { push } = useRouter();
   const [resetProcessing, setResetProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const handleReset = async (email: string) => {
-    const data: PR = { email };
+    const data: PR = { email, format: 'json'};
     setResetProcessing(true);
     try {
       await authPasswordResetCreate(data);
@@ -53,11 +53,22 @@ export function PasswordReset() {
 
       <Paper withBorder shadow="md" p={30} radius="md" mt="xl">
         {isSuccess ? (
-          <Text align="center" size="lg" weight={700}>
-            Password reset email has been sent
+          <>
+          <Text align="center" color='green'>
+            Password reset email has been sent if account with the provided email exists.
+            <br></br>
+            <br></br>
+            <Anchor color="dimmed" size="sm" onClick={() => push('/login')}>
+              Back to login
+            </Anchor>
+
           </Text>
+
+          </>
+
+          
         ) : null}
-        <form onSubmit={form.onSubmit((input) => handleReset(input.email))}>
+        <form hidden={isSuccess} onSubmit={form.onSubmit((input) => handleReset(input.email))}>
           <TextInput
             type="email"
             label="Email"

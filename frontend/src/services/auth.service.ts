@@ -38,8 +38,10 @@ export class AuthService {
         specificError = err.response.data.non_field_errors[0];
       }
       if (specificError) specificError = ": \n" + specificError;
-      const msg = err.message + specificError;
-      notifications.show({ message: msg, color: 'red' });
+      const msg = specificError;
+      if (specificError){
+        notifications.show({ message: msg, color: 'red' });
+      }
       return false;
     });      
 
@@ -64,8 +66,8 @@ export class AuthService {
         specificError = err.response.data.username[0];
       }
       if (specificError) specificError = ": \n" + specificError;
-      const msg = err.message + specificError;
-      notifications.show({ message: msg, color: 'red' });
+      const msg = specificError;
+      if (specificError) notifications.show({ message: msg, color: 'red' });
       return null;
     });     
 

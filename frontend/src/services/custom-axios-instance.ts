@@ -2,15 +2,26 @@
  
  import Axios, { AxiosRequestConfig } from 'axios';
  import { getAuthorizationHeader } from "../utils/getAuthorizationHeader";
+ import { notifications } from '@mantine/notifications';
 
  export let AXIOS_INSTANCE = Axios.create({ baseURL: 'https://openbridge.me/', headers: getAuthorizationHeader(),}); // use your own URL here or environment variable
  
- // add a second `options` argument here if you want to pass extra options to each generated query
+ AXIOS_INSTANCE.interceptors.response.use((response) => response, (error) => {
+  const msg = error.message;
+  notifications.show({ message: msg, color: 'red' });
+  console.log('error', msg)
+  return Promise.reject(error);
+});
+ 
+// add a second `options` argument here if you want to pass extra options to each generated query
  export const customInstance = <T>(
    config: AxiosRequestConfig,
    options?: AxiosRequestConfig,
  ): Promise<T> => {
    const source = Axios.CancelToken.source();
+
+
+
    const promise = AXIOS_INSTANCE({
      ...config,
      ...options,
