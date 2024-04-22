@@ -1,4 +1,4 @@
-import { use, useState } from 'react';
+import { use, useState, useEffect } from 'react';
 import {
   AppShell,
   Navbar,
@@ -45,14 +45,14 @@ import {
   IconMoon,
 } from '@tabler/icons-react';
 
-import { ColorSchemeToggle } from '../src/components/ColorSchemeToggle/ColorSchemeToggle';
-import { NavbarSimple } from '../src/components/NavbarSimple/NavbarSimple';
-import { User } from '../src/components/NavbarSimple/_user';
-import { MainLinks } from '../src/components/NavbarSimple/_mainLinks';
-import { Brand} from '../src/components/NavbarSimple/_brand';
+import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
+import { NavbarSimple } from '../NavbarSimple/NavbarSimple';
+import { User } from '../NavbarSimple/_user';
+import { MainLinks } from '../NavbarSimple/_mainLinks';
+import { Brand} from '../NavbarSimple/_brand';
 import { IconBuildingBridge } from '@tabler/icons';
-import { useLogout } from '../src/hooks/auth/useLogout';
-import { useCurrentUser } from '../src/hooks/auth/useCurrentUser';
+import { useLogout } from '../../hooks/auth/useLogout';
+import { useCurrentUser } from '../../hooks/auth/useCurrentUser';
 import { useRouter } from 'next-nprogress-bar';
 
 const useStyles = createStyles((theme) => ({
@@ -124,22 +124,15 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-
-
 const data = [
-  { link: '', label: 'My APIs', icon: IconWorldCode },
-  { link: '', label: 'Activated APIs', icon: IconWorldCheck },
-  { link: '', label: 'Billing', icon: IconCoins },
-  { link: '', label: 'Analytics', icon: IconTimeline },
-
+  { link: '/dashboard/my-api', label: 'My APIs', icon: IconWorldCode },
+  { link: '/dashboard/activated-api', label: 'Activated APIs', icon: IconWorldCheck },
+  { link: '/dashboard/billing', label: 'Billing', icon: IconCoins },
+  { link: '/dashboard/analytics', label: 'Analytics', icon: IconTimeline },
 ];
 
 
-
-
-
-
-export default function AppShellDemo() {
+export function CustomAppShell({ children }: { children: React.ReactNode }) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const { classes, cx } = useStyles();
@@ -153,7 +146,15 @@ export default function AppShellDemo() {
     e.preventDefault();
     logout();
     push('/login');
-  }
+  };
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    const activeItem = data.find((item) => item.link === path);
+    if (activeItem) {
+      setActive(activeItem.label);
+    }
+  }, []);
 
   const links = data.map((item) => (
     <a
@@ -163,6 +164,7 @@ export default function AppShellDemo() {
       onClick={(event) => {
         event.preventDefault();
         setActive(item.label);
+        push(item.link);
       }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />
@@ -187,7 +189,7 @@ export default function AppShellDemo() {
         </Navbar.Section>
   
         <Navbar.Section className={classes.footer}>
-          <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+          <a href="#" className={classes.link} onClick={(event) => redirectURL(event)}>
             <IconSettings className={classes.linkIcon} stroke={1.5} />
             <span>Settings</span>
           </a>
@@ -227,8 +229,10 @@ export default function AppShellDemo() {
           </div>
         </Header>
       }
+      padding="md"
+
     >
-      <Text>Resize app to see responsive navbar in action</Text>
+      {children}
       
     </AppShell>
   );
