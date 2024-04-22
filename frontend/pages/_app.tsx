@@ -17,7 +17,7 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
-  const appRoutes = ['/dashboard', '/settings', '/analytics', '/forms', '/responses'];
+  const appRoutes = [/^\/dashboard\/.*$/, /^\/settings$/];
 
   const toggleColorScheme = (value?: ColorScheme) => {
     const nextColorScheme = value || (colorScheme === 'dark' ? 'light' : 'dark');
@@ -39,7 +39,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
       <ProgressBar color="#37B24D" height="2px" />
       <QueryClientProvider client={new QueryClient()}>
         <MantineProvider theme={{ colorScheme, primaryColor: 'green' }} withGlobalStyles withNormalizeCSS>
-          {!appRoutes.includes(props.router.pathname)?
+          {!appRoutes.some(routeRegex => routeRegex.test(props.router.pathname))?
           <>
             <HeaderAction {...links}/>
             <Component {...pageProps}/>

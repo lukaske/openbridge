@@ -229,8 +229,7 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
           </div>
         </Header>
       }
-      padding="md"
-
+      padding="xs"
     >
       {children}
       
