@@ -24,7 +24,7 @@ export function RegisrationTitle() {
     setLoginProcessing(true);
     auth.register(input).then((res) => {
       if (res){
-        push('/dashboard');
+        push('/dashboard/my-api');
       }
       else{
         setLoginProcessing(false)

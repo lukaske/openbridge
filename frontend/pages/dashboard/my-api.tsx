@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {CustomAppShell} from '../../src/components/CustomAppShell';
 import { FooterLinks } from "../../src/components/FooterLinks/FooterLinks";
-import { Center, Button, Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space, Skeleton, AspectRatio, Pagination } from '@mantine/core';
+import { Center, Grid, Button, Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space, Skeleton, AspectRatio, Pagination } from '@mantine/core';
 import { ActionsGrid } from "../../src/components/ActionsGrid/ActionsGrid";
-import { IconShoppingCartFilled } from '@tabler/icons-react';
+import { IconPlus, IconShoppingCartFilled } from '@tabler/icons-react';
 import { ServiceCard } from "../../src/components/ServiceCard/ServiceCard";
 import { APIService } from "../../src/api/model/aPIService";
 import { useApiServiceList } from "../../src/api/endpoints/api-service/api-service";
@@ -15,12 +15,10 @@ const MyAPI: React.FC = () => {
   const { data: services, error, isLoading } = useApiServiceList({ page: activePage, format: 'json'});
 
   return (
-    <CustomAppShell>
-      <Container size="lg">
-          <Title order={1} className={classes.title} ta="left">My APIs</Title>
-          <Text className={classes.description} ta="left" mt='lg'>
-            Find the best APIs for your project. We have a wide range of APIs to choose from.
-          </Text>
+      <>    
+          <Group position="right">
+            <Button leftIcon={<IconPlus />} variant="outline">Add a new API</Button>
+          </Group>
           <Space h="lg" />
           <SimpleGrid cols={3}       breakpoints={[
           { maxWidth: 'md', cols: 3, spacing: 'md' },
@@ -37,9 +35,7 @@ const MyAPI: React.FC = () => {
               <Pagination disabled={isLoading} ta="center" mt="lg" mb="lg" value={activePage} onChange={setActivePage} total={Math.ceil(services?.count / 10) || 1} />
           </Center>
 
-      </Container>
-
-    </CustomAppShell>
+      </>
   );
 };
 
@@ -60,8 +56,6 @@ const useStyles = createStyles((theme) => ({
       width: rem(45),
       height: rem(2),
       marginTop: theme.spacing.sm,
-      marginLeft: 'auto',
-      marginRight: 'auto',
     },
 
   },

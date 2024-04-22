@@ -54,6 +54,7 @@ import { IconBuildingBridge } from '@tabler/icons';
 import { useLogout } from '../../hooks/auth/useLogout';
 import { useCurrentUser } from '../../hooks/auth/useCurrentUser';
 import { useRouter } from 'next-nprogress-bar';
+import { useRouter as useNextRouter } from 'next/router';
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -138,7 +139,8 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Billing');
   const { logout } = useLogout();
-  const { push } = useRouter();
+  const { push,  } = useRouter();
+  const nextRouter = useNextRouter();
   const {user, refetchUser} = useCurrentUser();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
@@ -154,7 +156,7 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
     if (activeItem) {
       setActive(activeItem.label);
     }
-  }, []);
+  }, [nextRouter.pathname]);
 
   const links = data.map((item) => (
     <a
@@ -163,7 +165,6 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
       key={item.label}
       onClick={(event) => {
         event.preventDefault();
-        setActive(item.label);
         push(item.link);
       }}
     >
@@ -229,7 +230,7 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
           </div>
         </Header>
       }
-      padding="xs"
+      padding="xl"
     >
       {children}
       

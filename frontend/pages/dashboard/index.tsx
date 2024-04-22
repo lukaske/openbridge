@@ -4,9 +4,7 @@ import {CustomAppShell} from '../../src/components/CustomAppShell';
 
 const DashboardPage: React.FC = () => {
   return (
-    <CustomAppShell>
       <Text>This is an example implementation.</Text>
-    </CustomAppShell>
   );
 };
 

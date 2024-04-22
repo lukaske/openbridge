@@ -13,6 +13,7 @@ import footer from '../config/footer.json';
 import {AuthHeader} from '../src/components/AuthHeader/AuthHeader';
 import MyAppShell from '../src/components/MyAppShell/MyAppShell';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { CustomAppShell } from '../src/components/CustomAppShell';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -46,9 +47,9 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
             <FooterLinks {...footer.props}/>
 
           </>:
-            <MyAppShell>
+            <CustomAppShell>
               <Component {...pageProps}/>
-            </MyAppShell>
+            </CustomAppShell>
           }
           <Notifications />
         </MantineProvider>

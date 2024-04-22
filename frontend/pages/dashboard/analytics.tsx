@@ -4,9 +4,7 @@ import {CustomAppShell} from '../../src/components/CustomAppShell';
 
 const Analytics: React.FC = () => {
   return (
-    <CustomAppShell>
       <Text>Analytics.</Text>
-    </CustomAppShell>
   );
 };
 

@@ -24,7 +24,7 @@ export function AuthenticationTitle() {
     setLoginProcessing(true);
     auth(input).then((res) => {
       if (res){
-        push('/dashboard');
+        push('/dashboard/my-api');
         return true;
       }
       setLoginProcessing(false)
