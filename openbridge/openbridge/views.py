@@ -4,8 +4,9 @@ from rest_framework import viewsets
 from .models import APIService, BillingRule, APIRequest
 from .serializers import APIServiceSerializer, BillingRuleSerializer
 from django.http import HttpResponse
-from rest_framework import permissions, response
+from rest_framework import permissions, filters
 from .permissions import IsOwnerOrReadOnly, IsInheritedOrReadOnly, HasServiceAPIKey
+from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
 from urllib.parse import urlparse
 from .helpers import generate_fernet_key
@@ -53,14 +54,21 @@ class APIServiceViewset(viewsets.ModelViewSet):
     queryset = APIService.objects.all().order_by('id')
     serializer_class = APIServiceSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly , IsOwnerOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id', 'name', 'active']
+    ordering_fields = ['id', 'name', 'created_at', 'active']
+    search_fields = ['name', 'description']
+
 
 
 class BillingRuleViewset(viewsets.ModelViewSet):
     queryset = BillingRule.objects.all().order_by('id')
     serializer_class = BillingRuleSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsInheritedOrReadOnly]
-
-
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id', 'api_service']
+    ordering_fields = ['id', 'name', 'created_at']
+    search_fields = ['name', 'description']
 
 class SecurityViewset(viewsets.ViewSet):
     def list(self, request):

@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'rest_framework_api_key',
     # Rest Swagger
     'drf_spectacular',
+    # Rest filters
+    'django_filters',
     #Reverse Proxy,
     'revproxy',
     # Django Extensions
@@ -171,8 +173,7 @@ REST_FRAMEWORK = {
     # YOUR SETTINGS
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-
+    'PAGE_SIZE': 9,
 
 }
 
