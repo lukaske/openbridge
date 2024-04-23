@@ -801,10 +801,8 @@ export const getAuthUserRetrieveQueryOptions = <
   TData = Awaited<ReturnType<typeof authUserRetrieve>>,
   TError = ErrorType<unknown>
 >(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof authUserRetrieve>>,
-    TError,
-    TData
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof authUserRetrieve>>, TError, TData>
   >;
 }) => {
   const { query: queryOptions } = options ?? {};
@@ -831,10 +829,8 @@ export const useAuthUserRetrieve = <
   TData = Awaited<ReturnType<typeof authUserRetrieve>>,
   TError = ErrorType<unknown>
 >(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof authUserRetrieve>>,
-    TError,
-    TData
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof authUserRetrieve>>, TError, TData>
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getAuthUserRetrieveQueryOptions(options);

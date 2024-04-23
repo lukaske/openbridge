@@ -79,10 +79,12 @@ export const getBillingRuleListQueryOptions = <
 >(
   params?: BillingRuleListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof billingRuleList>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof billingRuleList>>,
+        TError,
+        TData
+      >
     >;
   }
 ) => {
@@ -112,10 +114,12 @@ export const useBillingRuleList = <
 >(
   params?: BillingRuleListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof billingRuleList>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof billingRuleList>>,
+        TError,
+        TData
+      >
     >;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -215,10 +219,12 @@ export const getBillingRuleRetrieveQueryOptions = <
 >(
   id: number,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof billingRuleRetrieve>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof billingRuleRetrieve>>,
+        TError,
+        TData
+      >
     >;
   }
 ) => {
@@ -253,10 +259,12 @@ export const useBillingRuleRetrieve = <
 >(
   id: number,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof billingRuleRetrieve>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof billingRuleRetrieve>>,
+        TError,
+        TData
+      >
     >;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {

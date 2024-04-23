@@ -7,12 +7,13 @@ import { IconPlus, IconShoppingCartFilled } from '@tabler/icons-react';
 import { ServiceCard } from "../../src/components/ServiceCard/ServiceCard";
 import { APIService } from "../../src/api/model/aPIService";
 import { useApiServiceList } from "../../src/api/endpoints/api-service/api-service";
-
+import { useCurrentUser } from '../../src/hooks/auth/useCurrentUser';
 
 const MyAPI: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const { classes, theme } = useStyles();
-  const { data: services, error, isLoading } = useApiServiceList({ page: activePage, format: 'json'});
+  const { user, refetchUser } = useCurrentUser();
+  const { data: services, error, isLoading } = useApiServiceList({ page: activePage, format: 'json', id: user?.user.pk || -1});
 
   return (
       <>    

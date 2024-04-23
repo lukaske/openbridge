@@ -79,10 +79,8 @@ export const getApiServiceListQueryOptions = <
 >(
   params?: ApiServiceListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof apiServiceList>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof apiServiceList>>, TError, TData>
     >;
   }
 ) => {
@@ -112,10 +110,8 @@ export const useApiServiceList = <
 >(
   params?: ApiServiceListParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof apiServiceList>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof apiServiceList>>, TError, TData>
     >;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
@@ -215,10 +211,12 @@ export const getApiServiceRetrieveQueryOptions = <
 >(
   id: number,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof apiServiceRetrieve>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof apiServiceRetrieve>>,
+        TError,
+        TData
+      >
     >;
   }
 ) => {
@@ -253,10 +251,12 @@ export const useApiServiceRetrieve = <
 >(
   id: number,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof apiServiceRetrieve>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof apiServiceRetrieve>>,
+        TError,
+        TData
+      >
     >;
   }
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {

@@ -27,10 +27,8 @@ export const getKeyGenRetrieveQueryOptions = <
   TData = Awaited<ReturnType<typeof keyGenRetrieve>>,
   TError = ErrorType<unknown>
 >(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof keyGenRetrieve>>,
-    TError,
-    TData
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof keyGenRetrieve>>, TError, TData>
   >;
 }) => {
   const { query: queryOptions } = options ?? {};
@@ -57,10 +55,8 @@ export const useKeyGenRetrieve = <
   TData = Awaited<ReturnType<typeof keyGenRetrieve>>,
   TError = ErrorType<unknown>
 >(options?: {
-  query?: UseQueryOptions<
-    Awaited<ReturnType<typeof keyGenRetrieve>>,
-    TError,
-    TData
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof keyGenRetrieve>>, TError, TData>
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getKeyGenRetrieveQueryOptions(options);

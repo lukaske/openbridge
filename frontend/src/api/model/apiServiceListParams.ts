@@ -7,8 +7,19 @@
  */
 
 export type ApiServiceListParams = {
+  active?: boolean;
+  id?: number;
+  name?: string;
+  /**
+   * Which field to use when ordering the results.
+   */
+  ordering?: string;
   /**
    * A page number within the paginated result set.
    */
   page?: number;
+  /**
+   * A search term.
+   */
+  search?: string;
 };

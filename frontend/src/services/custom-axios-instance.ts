@@ -7,9 +7,10 @@
  export let AXIOS_INSTANCE = Axios.create({ baseURL: 'https://openbridge.me/', headers: getAuthorizationHeader(),}); // use your own URL here or environment variable
  
  AXIOS_INSTANCE.interceptors.response.use((response) => response, (error) => {
+  if (error.code === 'ERR_CANCELED') return Promise.reject(error);
   const msg = error.message;
   notifications.show({ message: msg, color: 'red' });
-  console.log('error', msg)
+  console.log('error', error)
   return Promise.reject(error);
 });
  
