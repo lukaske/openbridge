@@ -8,7 +8,7 @@ const ActivatedAPI: React.FC = () => {
   const { push } = useRouter();
   return (
     <Group position="right">
-      <Button leftIcon={<IconBuildingStore size={20} />} variant="outline" onClick={() => push('/marketplace')}>Visit API Marketplace</Button>
+      <Button leftIcon={<IconBuildingStore size={20} />} variant="filled" onClick={() => push('/marketplace')}>Visit API Marketplace</Button>
     </Group>
 );
 };

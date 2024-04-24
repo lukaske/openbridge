@@ -167,6 +167,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'jwt-auth',
+    'JWT_AUTH_RETURN_EXPIRATION': True,
 }
 
 REST_FRAMEWORK = {

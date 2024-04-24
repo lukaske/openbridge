@@ -14,6 +14,7 @@ import {AuthHeader} from '../src/components/AuthHeader/AuthHeader';
 import MyAppShell from '../src/components/MyAppShell/MyAppShell';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import { CustomAppShell } from '../src/components/CustomAppShell';
+import { ModalsProvider } from '@mantine/modals';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -40,6 +41,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
       <ProgressBar color="#37B24D" height="2px" />
       <QueryClientProvider client={new QueryClient()}>
         <MantineProvider theme={{ colorScheme, primaryColor: 'green' }} withGlobalStyles withNormalizeCSS>
+          <ModalsProvider>
           {!appRoutes.some(routeRegex => routeRegex.test(props.router.pathname))?
           <>
             <HeaderAction {...links}/>
@@ -52,6 +54,8 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
             </CustomAppShell>
           }
           <Notifications />
+          </ModalsProvider>
+
         </MantineProvider>
         </QueryClientProvider>
       </ColorSchemeProvider>

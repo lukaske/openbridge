@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Button, TextInput } from '@mantine/core';
+import { IconPlus, IconPencil } from '@tabler/icons-react';
 
-const ApiModal = () => {
+type ApiModalProps = {
+    mode: 'create' | 'edit';
+    serviceId: number;
+};
+
+export const ApiModal: React.FC<ApiModalProps> = ({ mode, serviceId }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [formValues, setFormValues] = useState({
         field1: '',
@@ -41,7 +47,11 @@ const ApiModal = () => {
 
     return (
         <>
-            <Button onClick={handleOpenModal}>Open Modal</Button>
+            {mode === 'create' ? (
+                <Button leftIcon={<IconPlus />} onClick={handleOpenModal} variant="filled">Create a new API</Button>
+            ): (
+                <Button fullWidth radius="md" leftIcon={<IconPencil />} onClick={handleOpenModal} variant="light">Edit API</Button>
+            )}
 
             <Modal opened={isOpen} onClose={handleCloseModal}>
                 <form onSubmit={handleSubmit}>
@@ -104,11 +114,9 @@ const ApiModal = () => {
                         Boolean Field
                     </label>
 
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">{mode === 'create' ? 'Create' : 'Save'}</Button>
                 </form>
             </Modal>
         </>
     );
 };
-
-export default ApiModal;

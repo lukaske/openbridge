@@ -1,24 +1,22 @@
 import React, {useState} from 'react';
-import {CustomAppShell} from '../../src/components/CustomAppShell';
-import { FooterLinks } from "../../src/components/FooterLinks/FooterLinks";
 import { Center, Grid, Button, Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space, Skeleton, AspectRatio, Pagination } from '@mantine/core';
-import { ActionsGrid } from "../../src/components/ActionsGrid/ActionsGrid";
-import { IconPlus, IconShoppingCartFilled } from '@tabler/icons-react';
-import { ServiceCard } from "../../src/components/ServiceCard/ServiceCard";
+import { ServiceCardManage } from "../../src/components/ServiceCard/ServiceCardManage";
 import { APIService } from "../../src/api/model/aPIService";
-import { useApiServiceList } from "../../src/api/endpoints/api-service/api-service";
+import { useApiServiceList, apiServiceDestroy } from "../../src/api/endpoints/api-service/api-service";
 import { useCurrentUser } from '../../src/hooks/auth/useCurrentUser';
+import { ApiModal } from '../../src/components/ApiModal/ApiModal';
+
 
 const MyAPI: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const { classes, theme } = useStyles();
   const { user, refetchUser } = useCurrentUser();
   const { data: services, error, isLoading } = useApiServiceList({ page: activePage, format: 'json', id: user?.user.pk || -1});
-
+  
   return (
       <>    
           <Group position="right">
-            <Button leftIcon={<IconPlus />} variant="outline">Add a new API</Button>
+            <ApiModal mode='create' />
           </Group>
           <Space h="lg" />
           <SimpleGrid cols={3}       breakpoints={[
@@ -28,14 +26,13 @@ const MyAPI: React.FC = () => {
               {isLoading && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
               {!isLoading && services?.results?.map((service: APIService) => (
                   
-                  <ServiceCard key={service.id} {...service} />
+                  <ServiceCardManage key={service.id} {...service} />
               ))}
 
           </SimpleGrid>
           <Center>
               <Pagination disabled={isLoading} ta="center" mt="lg" mb="lg" value={activePage} onChange={setActivePage} total={Math.ceil(services?.count / 10) || 1} />
           </Center>
-
       </>
   );
 };
