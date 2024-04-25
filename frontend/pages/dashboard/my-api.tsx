@@ -31,7 +31,7 @@ const MyAPI: React.FC = () => {
               {(isFetching) && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
               {!isFetching && services?.results?.map((service: APIService) => (
                   
-                  <ServiceCardManage key={service.id} fetch={refetchData  } service={service}  />
+                  <ServiceCardManage key={service.id} fetch={refetchData} service={service}  />
               ))}
 
           </SimpleGrid>

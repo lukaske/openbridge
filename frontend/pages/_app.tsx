@@ -39,7 +39,14 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <ProgressBar color="#37B24D" height="2px" />
-      <QueryClientProvider client={new QueryClient()}>
+      <QueryClientProvider client={new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            retry: false,
+          },
+        },
+      })}>
         <MantineProvider theme={{ colorScheme, primaryColor: 'green' }} withGlobalStyles withNormalizeCSS>
           <ModalsProvider>
           {!appRoutes.some(routeRegex => routeRegex.test(props.router.pathname))?

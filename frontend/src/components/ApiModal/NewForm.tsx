@@ -17,20 +17,28 @@ export interface APIServiceForm {
 
 interface NewFormProps {
     actionFunction: (service: APIServiceForm) => Promise<any>;
+    passedValues?: APIService;
 }
 
-function NewForm({actionFunction}: NewFormProps) {
-  const form = useForm({
-    initialValues: {
-      name: 'Cat Facts',
-      service_provider: 'The Cat Facts Company',
-      description: 'This API provides random cat facts. Please refer to the documentation for more information on catfacts.com',
-      url: 'https://api.thecatfacts.com/',
-      url_compatible_name: 'cat-facts',
-      image: 'https://thecatfacts.com/catfacts.png',
-      api_key: 'abc123',
-      active: true,
-    },
+function NewForm({actionFunction, passedValues}: NewFormProps) {
+    let initialValues: APIServiceForm;
+
+    console.log(passedValues)
+    
+    if (!passedValues) initialValues = {
+        name: 'Cat Facts',
+        service_provider: 'The Cat Facts Company',
+        description: 'This API provides random cat facts. Please refer to the documentation for more information on catfacts.com',
+        url: 'https://api.thecatfacts.com/',
+        url_compatible_name: 'cat-facts',
+        image: 'https://thecatfacts.com/catfacts.png',
+        api_key: 'abc123',
+        active: true,
+    }
+    else initialValues = passedValues as APIServiceForm;
+
+    const form = useForm({
+        initialValues: initialValues,
 
     validate: {
       name: (value) => (value.trim() !== '' ? null : 'Name is required'),
@@ -109,7 +117,7 @@ function NewForm({actionFunction}: NewFormProps) {
         />
 
         <Group position="right" mt="lg">
-          <Button type="submit">Create API</Button>
+          <Button type="submit">{!passedValues? 'Create API': 'Update API'}</Button>
         </Group>
       </form>
     </Box>

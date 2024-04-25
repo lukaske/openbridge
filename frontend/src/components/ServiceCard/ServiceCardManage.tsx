@@ -15,7 +15,6 @@ interface ServiceCardManageProps {
 export function ServiceCardManage({ service, fetch: refetchParent }: ServiceCardManageProps) {
 
   const {isPending: isPendingDelete, mutateAsync: deleteAsync} = useApiServiceDestroy();
-  const {isPending: isPendingUpdate, mutateAsync: updateAsync} = useApiServicePartialUpdate();
 
   const deleteService = () => {
     deleteAsync({id: service.id}).then(() => {
@@ -68,7 +67,7 @@ export function ServiceCardManage({ service, fetch: refetchParent }: ServiceCard
 
       <Button mt='sm' leftIcon={<IconCoins/>} fullWidth radius="md" variant='filled' onClick={openDeleteModal}>API Billing Rules</Button>
       <Group mt='xs' grow spacing={'0.5rem'}>
-        <ApiModal mode='edit' serviceId={service.id} />
+        <ApiModal mode='edit' service={service} refetchParent={refetchParent}/>
         <Button leftIcon={<IconTrashX/>} radius="md" variant='light' color='red' onClick={openDeleteModal}>Delete</Button>
       </Group>
       <LoadingOverlay visible={isPendingDelete} zIndex={1000} overlayProps={{ radius: "sm", blur: 2, backgroundOpacity: '0.85' }} />
