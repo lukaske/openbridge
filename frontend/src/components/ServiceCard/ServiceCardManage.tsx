@@ -1,11 +1,29 @@
-import { Card, Image, Text, Badge, Button, Group, Anchor, ScrollArea, Grid } from '@mantine/core';
+import { Card, Image, Text, Badge, Button, Group, Anchor, ScrollArea, Grid, LoadingOverlay } from '@mantine/core';
 import { APIService } from '../../api/model/aPIService';  
 import { ApiModal } from '../ApiModal/ApiModal';
-import { IconTrashX } from '@tabler/icons-react';
+import { IconTrashX, IconPigMoney, IconPig, IconCoins } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
-import { useApiServiceList, apiServiceDestroy } from "../../api/endpoints/api-service/api-service";
+import { useApiServiceList, useApiServiceDestroy, useApiServicePartialUpdate } from "../../api/endpoints/api-service/api-service";
+import { useState } from 'react';
+import { notifications } from '@mantine/notifications';
 
-export function ServiceCardManage(service: APIService) {
+interface ServiceCardManageProps {
+  service: APIService;
+  fetch: () => void;
+}
+
+export function ServiceCardManage({ service, fetch: refetchParent }: ServiceCardManageProps) {
+
+  console.log(service)
+
+  const {isPending, mutateAsync} = useApiServiceDestroy();
+
+  const deleteService = () => {
+    mutateAsync({id: service.id}).then(() => {
+      notifications.show({title: 'Success', message: `Service ${service.name} deleted successfully`, color: 'green'});
+      refetchParent();
+    });
+  }; 
 
   const openDeleteModal = () =>
     modals.openConfirmModal({
@@ -18,9 +36,8 @@ export function ServiceCardManage(service: APIService) {
       ),
       labels: { confirm: 'Delete', cancel: "Cancel" },
       confirmProps: { color: 'red'},
-      closeOnConfirm: false,
-      onCancel: async () => await setTimeout(() => {}, 1000),
-      onConfirm: async () => await apiServiceDestroy(service.id),
+      onCancel:  () => {},
+      onConfirm: () => deleteService(),
     });
 
 
@@ -50,13 +67,14 @@ export function ServiceCardManage(service: APIService) {
 
       </ScrollArea>
 
-      <Group spacing={'0.5rem'}>
-
+      <Button mt='sm' leftIcon={<IconCoins/>} fullWidth radius="md" variant='filled' onClick={openDeleteModal}>API Billing Rules</Button>
+      <Group mt='xs' grow spacing={'0.5rem'}>
       <ApiModal mode='edit' serviceId={service.id} />
-      <Button leftIcon={<IconTrashX/>} fullWidth radius="md" variant='light' color='red' onClick={openDeleteModal}>Delete</Button>
+      <Button leftIcon={<IconTrashX/>} radius="md" variant='light' color='red' onClick={openDeleteModal}>Delete</Button>
 
 
       </Group>
+      <LoadingOverlay visible={isPending} zIndex={1000} overlayProps={{ radius: "sm", blur: 2, backgroundOpacity: '0.85' }} />
 
     </Card>
   );

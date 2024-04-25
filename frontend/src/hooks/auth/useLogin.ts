@@ -9,8 +9,7 @@ export const useLogin = () => {
     if (!jwt) {
       return;
     }
-    const expirationDate = new Date();
-    expirationDate.setMinutes(expirationDate.getMinutes() + 5);
+    const expirationDate = new Date(jwt.access_expiration);
     Cookies.set("currentUser", JSON.stringify(jwt), { expires: expirationDate });
     return jwt.user;
   };

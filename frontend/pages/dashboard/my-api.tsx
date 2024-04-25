@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Center, Grid, Button, Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space, Skeleton, AspectRatio, Pagination } from '@mantine/core';
 import { ServiceCardManage } from "../../src/components/ServiceCard/ServiceCardManage";
 import { APIService } from "../../src/api/model/aPIService";
@@ -11,7 +11,12 @@ const MyAPI: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const { classes, theme } = useStyles();
   const { user, refetchUser } = useCurrentUser();
-  const { data: services, error, isLoading } = useApiServiceList({ page: activePage, format: 'json', id: user?.user.pk || -1});
+  const { data: services, error, isLoading, refetch, isFetching } = useApiServiceList({ page: activePage, format: 'json', owner: user?.user.pk || -1});
+  
+  const refetchData = () => {
+    if (activePage !== 1) setActivePage(1);
+    else refetch();
+  };
   
   return (
       <>    
@@ -23,15 +28,15 @@ const MyAPI: React.FC = () => {
           { maxWidth: 'md', cols: 3, spacing: 'md' },
           { maxWidth: 'sm', cols: 2, spacing: 'sm' },
           { maxWidth: 'xs', cols: 1, spacing: 'sm' },]}>
-              {isLoading && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
-              {!isLoading && services?.results?.map((service: APIService) => (
+              {(isFetching) && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
+              {!isFetching && services?.results?.map((service: APIService) => (
                   
-                  <ServiceCardManage key={service.id} {...service} />
+                  <ServiceCardManage key={service.id} fetch={refetchData  } service={service}  />
               ))}
 
           </SimpleGrid>
           <Center>
-              <Pagination disabled={isLoading} ta="center" mt="lg" mb="lg" value={activePage} onChange={setActivePage} total={Math.ceil(services?.count / 10) || 1} />
+              <Pagination disabled={isFetching} ta="center" mt="lg" mb="lg" value={activePage} onChange={setActivePage} total={Math.ceil(services?.count / 9) || 1} />
           </Center>
       </>
   );

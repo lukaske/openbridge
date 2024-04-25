@@ -17,7 +17,9 @@
     "test": "npm run prettier:check && npm run lint && npm run typecheck && npm run jest",
     "storybook": "start-storybook -p 7001",
     "storybook:build": "build-storybook",
-    "orval": "curl -o ./config/openbridge.yml https://openbridge.me/api/schema/ && orval --config ./orval.config.js"
+    "orval": "curl -o ./config/openbridge.yml https://openbridge.me/api/schema/ && orval --config ./orval.config.js",
+    "orval-local": "curl -o ./config/openbridge.yml http://localhost:8000/api/schema/ && orval --config ./orval.config.js"
+
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",

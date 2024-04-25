@@ -28,6 +28,10 @@ paths:
         description: Which field to use when ordering the results.
         schema:
           type: string
+      - in: query
+        name: owner
+        schema:
+          type: integer
       - name: page
         required: false
         in: query
@@ -44,7 +48,9 @@ paths:
       - api-service
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -71,7 +77,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '201':
           content:
@@ -93,7 +101,9 @@ paths:
       - api-service
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -127,7 +137,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -159,7 +171,9 @@ paths:
               $ref: '#/components/schemas/PatchedAPIService'
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -180,7 +194,9 @@ paths:
       - api-service
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '204':
           description: No response body
@@ -211,7 +227,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -232,7 +250,9 @@ paths:
       - auth
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -265,7 +285,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -297,7 +319,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -332,7 +356,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -360,7 +386,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '201':
@@ -388,7 +416,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '201':
@@ -416,7 +446,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -495,7 +527,9 @@ paths:
       - auth
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -529,7 +563,9 @@ paths:
               $ref: '#/components/schemas/UserDetails'
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -563,7 +599,9 @@ paths:
               $ref: '#/components/schemas/PatchedUserDetails'
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -605,7 +643,9 @@ paths:
       - billing-rule
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -632,7 +672,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '201':
           content:
@@ -654,7 +696,9 @@ paths:
       - billing-rule
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -688,7 +732,9 @@ paths:
         required: true
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -720,7 +766,9 @@ paths:
               $ref: '#/components/schemas/PatchedBillingRule'
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '200':
           content:
@@ -741,7 +789,9 @@ paths:
       - billing-rule
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       responses:
         '204':
           description: No response body
@@ -752,7 +802,9 @@ paths:
       - key-gen
       security:
       - cookieAuth: []
-      - basicAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
       - {}
       responses:
         '200':
@@ -1130,10 +1182,20 @@ components:
       required:
       - key
   securitySchemes:
-    basicAuth:
-      type: http
-      scheme: basic
     cookieAuth:
       type: apiKey
       in: cookie
       name: sessionid
+    jwtCookieAuth:
+      type: apiKey
+      in: cookie
+      name: jwt-auth
+    jwtHeaderAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

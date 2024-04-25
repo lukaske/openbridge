@@ -50,7 +50,7 @@ export const ApiModal: React.FC<ApiModalProps> = ({ mode, serviceId }) => {
             {mode === 'create' ? (
                 <Button leftIcon={<IconPlus />} onClick={handleOpenModal} variant="filled">Create a new API</Button>
             ): (
-                <Button fullWidth radius="md" leftIcon={<IconPencil />} onClick={handleOpenModal} variant="light">Edit API</Button>
+                <Button radius="md" leftIcon={<IconPencil />} onClick={handleOpenModal} variant="light">Edit API</Button>
             )}
 
             <Modal opened={isOpen} onClose={handleCloseModal}>

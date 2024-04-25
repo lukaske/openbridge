@@ -55,7 +55,7 @@ class APIServiceViewset(viewsets.ModelViewSet):
     serializer_class = APIServiceSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly , IsOwnerOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['id', 'name', 'active']
+    filterset_fields = ['id', 'name', 'active', 'owner']
     ordering_fields = ['id', 'name', 'created_at', 'active']
     search_fields = ['name', 'description']
 

@@ -14,6 +14,7 @@ export type ApiServiceListParams = {
    * Which field to use when ordering the results.
    */
   ordering?: string;
+  owner?: number;
   /**
    * A page number within the paginated result set.
    */
