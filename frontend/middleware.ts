@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
 
   if (
     protectedRoutes.includes(request.nextUrl.pathname) &&
-    (!currentUser || Date.now() > JSON.parse(currentUser).expiredAt)
+    (!currentUser || Date.now() > new Date(JSON.parse(currentUser).access_expiration).getTime())
   ) {
     request.cookies.delete("currentUser");
     const response = NextResponse.redirect(new URL("/login", request.url));
