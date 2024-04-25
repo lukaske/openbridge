@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
-import { Modal, Button, TextInput } from '@mantine/core';
+import { Modal, Button, TextInput, LoadingOverlay } from '@mantine/core';
 import { IconPlus, IconPencil } from '@tabler/icons-react';
+import NewForm, { APIServiceForm } from './NewForm';
+import { useApiServiceCreate } from '../../api/endpoints/api-service/api-service';
+import { notifications } from '@mantine/notifications';
 
 type ApiModalProps = {
     mode: 'create' | 'edit';
     serviceId: number;
+    refetchParent?: () => void;
 };
 
-export const ApiModal: React.FC<ApiModalProps> = ({ mode, serviceId }) => {
+export const ApiModal: React.FC<ApiModalProps> = ({ mode, serviceId, refetchParent }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [formValues, setFormValues] = useState({
-        field1: '',
-        field2: '',
-        field3: '',
-        field4: '',
-        field5: '',
-        field6: '',
-        field7: '',
-        field8: '',
-        booleanField: false,
-    });
+    const {isPending: pendingCreation, mutateAsync: createAsync} = useApiServiceCreate();
+
+    const createAPIService = async (payload: any) => {
+        createAsync({data: payload}).then(() => {
+            setIsOpen(false);
+            notifications.show({message: 'API created successfully', color: 'green'});
+            if (refetchParent) refetchParent();
+        }).catch((error: any) => {
+            notifications.show({message: `API creation failed: ${JSON.stringify(error.response?.data)}`, color: 'red'});
+        })
+    };
 
     const handleOpenModal = () => {
         setIsOpen(true);
@@ -27,22 +31,6 @@ export const ApiModal: React.FC<ApiModalProps> = ({ mode, serviceId }) => {
 
     const handleCloseModal = () => {
         setIsOpen(false);
-    };
-
-    const handleSubmit = () => {
-        // Handle form submission logic here
-        console.log('Form submitted:', formValues);
-        handleCloseModal();
-    };
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = event.target;
-        const newValue = type === 'checkbox' ? checked : value;
-
-        setFormValues((prevValues) => ({
-            ...prevValues,
-            [name]: newValue,
-        }));
     };
 
     return (
@@ -53,69 +41,9 @@ export const ApiModal: React.FC<ApiModalProps> = ({ mode, serviceId }) => {
                 <Button radius="md" leftIcon={<IconPencil />} onClick={handleOpenModal} variant="light">Edit API</Button>
             )}
 
-            <Modal opened={isOpen} onClose={handleCloseModal}>
-                <form onSubmit={handleSubmit}>
-                    <TextInput
-                        label="Field 1"
-                        name="field1"
-                        value={formValues.field1}
-                        onChange={handleInputChange}
-                    />
-                    <TextInput
-                        label="Field 2"
-                        name="field2"
-                        value={formValues.field2}
-                        onChange={handleInputChange}
-                    />
-                    <TextInput
-                        label="Field 3"
-                        name="field3"
-                        value={formValues.field3}
-                        onChange={handleInputChange}
-                    />
-                    <TextInput
-                        label="Field 4"
-                        name="field4"
-                        value={formValues.field4}
-                        onChange={handleInputChange}
-                    />
-                    <TextInput
-                        label="Field 5"
-                        name="field5"
-                        value={formValues.field5}
-                        onChange={handleInputChange}
-                    />
-                    <TextInput
-                        label="Field 6"
-                        name="field6"
-                        value={formValues.field6}
-                        onChange={handleInputChange}
-                    />
-                    <TextInput
-                        label="Field 7"
-                        name="field7"
-                        value={formValues.field7}
-                        onChange={handleInputChange}
-                    />
-                    <TextInput
-                        label="Field 8"
-                        name="field8"
-                        value={formValues.field8}
-                        onChange={handleInputChange}
-                    />
-
-                    <label>
-                        <input
-                            type="checkbox"
-                            name="booleanField"
-                            checked={formValues.booleanField}
-                            onChange={handleInputChange}
-                        />
-                        Boolean Field
-                    </label>
-
-                    <Button type="submit">{mode === 'create' ? 'Create' : 'Save'}</Button>
-                </form>
+            <Modal opened={isOpen} onClose={handleCloseModal} title={mode === 'create'? 'Create a new API': 'Update'}>
+                <NewForm actionFunction={createAPIService} />
+                <LoadingOverlay visible={pendingCreation} zIndex={1000} overlayProps={{ radius: "sm", blur: 2, backgroundOpacity: '0.85' }} />
             </Modal>
         </>
     );

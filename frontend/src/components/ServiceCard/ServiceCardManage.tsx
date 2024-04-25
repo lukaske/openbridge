@@ -14,12 +14,11 @@ interface ServiceCardManageProps {
 
 export function ServiceCardManage({ service, fetch: refetchParent }: ServiceCardManageProps) {
 
-  console.log(service)
-
-  const {isPending, mutateAsync} = useApiServiceDestroy();
+  const {isPending: isPendingDelete, mutateAsync: deleteAsync} = useApiServiceDestroy();
+  const {isPending: isPendingUpdate, mutateAsync: updateAsync} = useApiServicePartialUpdate();
 
   const deleteService = () => {
-    mutateAsync({id: service.id}).then(() => {
+    deleteAsync({id: service.id}).then(() => {
       notifications.show({title: 'Success', message: `Service ${service.name} deleted successfully`, color: 'green'});
       refetchParent();
     });
@@ -38,7 +37,7 @@ export function ServiceCardManage({ service, fetch: refetchParent }: ServiceCard
       confirmProps: { color: 'red'},
       onCancel:  () => {},
       onConfirm: () => deleteService(),
-    });
+});
 
 
 
@@ -69,12 +68,10 @@ export function ServiceCardManage({ service, fetch: refetchParent }: ServiceCard
 
       <Button mt='sm' leftIcon={<IconCoins/>} fullWidth radius="md" variant='filled' onClick={openDeleteModal}>API Billing Rules</Button>
       <Group mt='xs' grow spacing={'0.5rem'}>
-      <ApiModal mode='edit' serviceId={service.id} />
-      <Button leftIcon={<IconTrashX/>} radius="md" variant='light' color='red' onClick={openDeleteModal}>Delete</Button>
-
-
+        <ApiModal mode='edit' serviceId={service.id} />
+        <Button leftIcon={<IconTrashX/>} radius="md" variant='light' color='red' onClick={openDeleteModal}>Delete</Button>
       </Group>
-      <LoadingOverlay visible={isPending} zIndex={1000} overlayProps={{ radius: "sm", blur: 2, backgroundOpacity: '0.85' }} />
+      <LoadingOverlay visible={isPendingDelete} zIndex={1000} overlayProps={{ radius: "sm", blur: 2, backgroundOpacity: '0.85' }} />
 
     </Card>
   );

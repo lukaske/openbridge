@@ -21,7 +21,7 @@ const MyAPI: React.FC = () => {
   return (
       <>    
           <Group position="right">
-            <ApiModal mode='create' />
+            <ApiModal mode='create' refetchParent={refetchData}/>
           </Group>
           <Space h="lg" />
           <SimpleGrid cols={3}       breakpoints={[
