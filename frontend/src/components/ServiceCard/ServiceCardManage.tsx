@@ -6,6 +6,7 @@ import { modals } from '@mantine/modals';
 import { useApiServiceList, useApiServiceDestroy, useApiServicePartialUpdate } from "../../api/endpoints/api-service/api-service";
 import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
+import BillingRuleModal from '../BillingRuleModal/BillingRuleModal';
 
 interface ServiceCardManageProps {
   service: APIService;
@@ -65,7 +66,7 @@ export function ServiceCardManage({ service, fetch: refetchParent }: ServiceCard
 
       </ScrollArea>
 
-      <Button mt='sm' leftIcon={<IconCoins/>} fullWidth radius="md" variant='filled' onClick={openDeleteModal}>API Billing Rules</Button>
+      <BillingRuleModal service={service} />
       <Group mt='xs' grow spacing={'0.5rem'}>
         <ApiModal mode='edit' service={service} refetchParent={refetchParent}/>
         <Button leftIcon={<IconTrashX/>} radius="md" variant='light' color='red' onClick={openDeleteModal}>Delete</Button>
