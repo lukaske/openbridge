@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Center, Grid, Button, Title, Container, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space, Skeleton, AspectRatio, Pagination } from '@mantine/core';
+import { Center, Button, Title, Container, Box, SimpleGrid, createStyles, rem, Card, Group, Anchor, Text, Space, Skeleton, AspectRatio, Pagination } from '@mantine/core';
 import { ServiceCardManage } from "../../src/components/ServiceCard/ServiceCardManage";
 import { APIService } from "../../src/api/model/aPIService";
 import { useApiServiceList, apiServiceDestroy } from "../../src/api/endpoints/api-service/api-service";
@@ -19,15 +19,17 @@ const MyAPI: React.FC = () => {
   };
   
   return (
-      <>    
+      <Container size="lg" p={0}>
+
           <Group position="right">
             <ApiModal mode='create' refetchParent={refetchData}/>
           </Group>
           <Space h="lg" />
           <SimpleGrid cols={3}       breakpoints={[
-          { maxWidth: 'md', cols: 3, spacing: 'md' },
-          { maxWidth: 'sm', cols: 2, spacing: 'sm' },
-          { maxWidth: 'xs', cols: 1, spacing: 'sm' },]}>
+          { minWidth: 'lg', cols: 3, spacing: 'lg'},  
+          { minWidth: 'md', cols: 2, spacing: 'md' },
+          { minWidth: 'sm', cols: 2, spacing: 'sm' },
+          { minWidth: 'xs', cols: 1, spacing: 'sm' },]}>
               {(isFetching) && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
               {!isFetching && services?.results?.map((service: APIService) => (
                   
@@ -38,7 +40,7 @@ const MyAPI: React.FC = () => {
           <Center>
               <Pagination disabled={isFetching} ta="center" mt="lg" mb="lg" value={activePage} onChange={setActivePage} total={Math.ceil(services?.count / 9) || 1} />
           </Center>
-      </>
+      </Container>
   );
 };
 
