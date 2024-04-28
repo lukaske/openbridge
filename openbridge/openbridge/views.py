@@ -1,11 +1,11 @@
 import re
 from revproxy.views import ProxyView
 from rest_framework import viewsets
-from .models import APIService, BillingRule, APIRequest
-from .serializers import APIServiceSerializer, BillingRuleSerializer
+from .models import APIService, BillingRule, APIRequest, ServiceAPIKey
+from .serializers import APIServiceSerializer, BillingRuleSerializer, ServiceAPIKeySerializer
 from django.http import HttpResponse
 from rest_framework import permissions, filters
-from .permissions import IsOwnerOrReadOnly, IsInheritedOrReadOnly, HasServiceAPIKey
+from .permissions import IsOwnerOrReadOnly, IsInheritedOrReadOnly, HasServiceAPIKey, ShowOnlyToOwner
 from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
 from urllib.parse import urlparse
@@ -59,17 +59,38 @@ class APIServiceViewset(viewsets.ModelViewSet):
     ordering_fields = ['id', 'name', 'created_at', 'active']
     search_fields = ['name', 'description']
 
-
-
 class BillingRuleViewset(viewsets.ModelViewSet):
     queryset = BillingRule.objects.all().order_by('id')
     serializer_class = BillingRuleSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsInheritedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['id', 'api_service']
     ordering_fields = ['id', 'name', 'created_at']
     search_fields = ['name', 'description']
 
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            return BillingRule.objects.none()
+        return super().get_queryset(*args, **kwargs).filter(
+            api_service__in=APIService.objects.filter(owner=self.request.user)
+        )
+
 class SecurityViewset(viewsets.ViewSet):
     def list(self, request):
         return JsonResponse({'key': generate_fernet_key()})
+
+class ServiceAPIKeyViewset(viewsets.ModelViewSet):
+    queryset = ServiceAPIKey.objects.all().order_by('id')
+    serializer_class = ServiceAPIKeySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id', 'api_service', 'owner']
+    ordering_fields = ['id', 'created', 'name', 'revoked', 'expiry_date']
+    search_fields = ['name', 'description']
+    lookup_field = 'prefix'
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            return ServiceAPIKey.objects.none()
+        return super().get_queryset(*args, **kwargs).filter(
+            owner=self.request.user
+        )

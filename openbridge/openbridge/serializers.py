@@ -51,7 +51,35 @@ class UserBillsSerializer(serializers.ModelSerializer):
         ordering = ['id']
 
 class ServiceAPIKeySerializer(serializers.ModelSerializer):
+    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = ServiceAPIKey
-        fields = ['id', ]
+        fields = ['id', 'prefix', 'created', 'name', 'revoked', 'api_service', 'owner']
         ordering = ['id']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.key = None
+        request = self.context.get('request', None)
+        if request and request.user.is_authenticated:
+            self.fields['api_service'].queryset = APIService.objects.filter(active=True).order_by('id')
+
+
+    def create(self, validated_data):
+        api_key_obj, key = ServiceAPIKey.objects.create_key(**validated_data)
+        self.key = key
+        return api_key_obj
+
+    def get_fields(self):
+        fields = super().get_fields()
+        if self.instance:
+            fields["api_service"].read_only = True
+        return fields
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if hasattr(self, 'key'):  # Check if key is set (i.e., during creation)
+            data['key'] = self.key
+        return data
+
+

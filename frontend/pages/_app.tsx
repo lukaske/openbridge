@@ -32,7 +32,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   return (
     <>
       <Head>
-        <title>Open Bridge | Your billable API</title>
+        <title>Open Bridge | Your Billable API Proxy</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicons/favicon.ico" />
       </Head>

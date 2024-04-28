@@ -33,7 +33,7 @@ class APIService(models.Model):
 
 class ServiceAPIKeyManager(BaseAPIKeyManager):
     def get_usable_keys(self):
-        return super().get_usable_keys().filter(api_service__active=True)
+        return super().get_usable_keys().filter(api_service__ServiceAPIKeyactive=True)
 
 class ServiceAPIKey(AbstractAPIKey):
     objects = ServiceAPIKeyManager()
@@ -43,7 +43,6 @@ class ServiceAPIKey(AbstractAPIKey):
         related_name="api_keys",
     )
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None) #default=User.objects.filter(is_superuser=True).first().id
-
 
     class Meta(AbstractAPIKey.Meta):
         verbose_name = "Service's API key"

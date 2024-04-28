@@ -5,6 +5,8 @@ from rest_framework import permissions
 from rest_framework_api_key.models import AbstractAPIKey
 from rest_framework_api_key.permissions import BaseHasAPIKey
 from .models import ServiceAPIKey
+from rest_framework.permissions import BasePermission
+
 
 class HasServiceAPIKey(BaseHasAPIKey):
     model = ServiceAPIKey
@@ -48,3 +50,8 @@ class IsInheritedOrReadOnly(permissions.BasePermission):
 
         # Write permissions are only allowed to the owner of the snippet.
         return obj.api_service.owner == request.user
+
+class ShowOnlyToOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj) -> bool:
+        return obj.owner == request.user
+
