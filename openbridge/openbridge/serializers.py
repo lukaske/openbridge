@@ -64,7 +64,6 @@ class ServiceAPIKeySerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             self.fields['api_service'].queryset = APIService.objects.filter(active=True).order_by('id')
 
-
     def create(self, validated_data):
         api_key_obj, key = ServiceAPIKey.objects.create_key(**validated_data)
         self.key = key

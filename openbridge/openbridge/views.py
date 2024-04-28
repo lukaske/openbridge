@@ -88,9 +88,34 @@ class ServiceAPIKeyViewset(viewsets.ModelViewSet):
     ordering_fields = ['id', 'created', 'name', 'revoked', 'expiry_date']
     search_fields = ['name', 'description']
     lookup_field = 'prefix'
+
+    def destroy(self, *args, **kwargs):
+        # Don't allow deletion of keys
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_anonymous:
             return ServiceAPIKey.objects.none()
         return super().get_queryset(*args, **kwargs).filter(
             owner=self.request.user
         )
+
+class ClientSubcriptionsViewset(viewsets.ModelViewSet):
+    queryset = APIService.objects.all().order_by('id')
+    serializer_class = APIServiceSerializer
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id', 'name', 'active', 'owner']
+    ordering_fields = ['id', 'name', 'created_at', 'active']
+    search_fields = ['name', 'description']
+    allowed_methods = ['GET']
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            return APIService.objects.none()
+        return super().get_queryset(*args, **kwargs).filter(
+            id__in=ServiceAPIKey.objects.filter(owner=self.request.user).values('api_service_id')
+        )
+
+
