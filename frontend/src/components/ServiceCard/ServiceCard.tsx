@@ -1,5 +1,6 @@
 import { Card, Image, Text, Badge, Button, Group, Anchor, ScrollArea, Grid } from '@mantine/core';
 import { APIService } from '../../api/model/aPIService';  
+import { ClientKeyModal } from '../ClientKeyModal/ClientKeyModal';
 
 export   function ServiceCard(service: APIService) {
   return (
@@ -26,10 +27,7 @@ export   function ServiceCard(service: APIService) {
         </Text>
 
       </ScrollArea>
-
-      <Button disabled={!service.active} fullWidth mt="md" radius="md">
-        Activate API
-      </Button>
+      <ClientKeyModal service={service} fetch={() => {}} />
     </Card>
   );
 }
