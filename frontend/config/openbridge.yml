@@ -795,6 +795,386 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/client-api-keys/:
+    get:
+      operationId: client_api_keys_list
+      parameters:
+      - in: query
+        name: api_service
+        schema:
+          type: integer
+      - in: query
+        name: id
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: owner
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - client-api-keys
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceAPIKeyList'
+          description: ''
+    post:
+      operationId: client_api_keys_create
+      tags:
+      - client-api-keys
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceAPIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceAPIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceAPIKey'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAPIKey'
+          description: ''
+  /api/client-api-keys/{prefix}/:
+    get:
+      operationId: client_api_keys_retrieve
+      parameters:
+      - in: path
+        name: prefix
+        schema:
+          type: string
+        required: true
+      tags:
+      - client-api-keys
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAPIKey'
+          description: ''
+    put:
+      operationId: client_api_keys_update
+      parameters:
+      - in: path
+        name: prefix
+        schema:
+          type: string
+        required: true
+      tags:
+      - client-api-keys
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceAPIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceAPIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceAPIKey'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAPIKey'
+          description: ''
+    patch:
+      operationId: client_api_keys_partial_update
+      parameters:
+      - in: path
+        name: prefix
+        schema:
+          type: string
+        required: true
+      tags:
+      - client-api-keys
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceAPIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceAPIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceAPIKey'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAPIKey'
+          description: ''
+    delete:
+      operationId: client_api_keys_destroy
+      parameters:
+      - in: path
+        name: prefix
+        schema:
+          type: string
+        required: true
+      tags:
+      - client-api-keys
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/client-services/:
+    get:
+      operationId: client_services_list
+      parameters:
+      - in: query
+        name: active
+        schema:
+          type: boolean
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - in: query
+        name: name
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: owner
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - client-services
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAPIServiceList'
+          description: ''
+    post:
+      operationId: client_services_create
+      tags:
+      - client-services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIService'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APIService'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APIService'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIService'
+          description: ''
+  /api/client-services/{id}/:
+    get:
+      operationId: client_services_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this api service.
+        required: true
+      tags:
+      - client-services
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIService'
+          description: ''
+    put:
+      operationId: client_services_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this api service.
+        required: true
+      tags:
+      - client-services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIService'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APIService'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APIService'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIService'
+          description: ''
+    patch:
+      operationId: client_services_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this api service.
+        required: true
+      tags:
+      - client-services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAPIService'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAPIService'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAPIService'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIService'
+          description: ''
+    delete:
+      operationId: client_services_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this api service.
+        required: true
+      tags:
+      - client-services
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/key-gen/:
     get:
       operationId: key_gen_retrieve
@@ -965,6 +1345,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BillingRule'
+    PaginatedServiceAPIKeyList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceAPIKey'
     PasswordChange:
       type: object
       properties:
@@ -1076,6 +1476,30 @@ components:
           type: integer
           maximum: 2147483647
           minimum: -2147483648
+    PatchedServiceAPIKey:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        prefix:
+          type: string
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          description: A free-form name for the API key. Need not be unique. 50 characters
+            max.
+          maxLength: 50
+        revoked:
+          type: boolean
+          description: If the API key is revoked, clients cannot use it anymore. (This
+            cannot be undone.)
+        api_service:
+          type: integer
     PatchedUserDetails:
       type: object
       description: User model w/o password
@@ -1131,6 +1555,35 @@ components:
           readOnly: true
       required:
       - detail
+    ServiceAPIKey:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        prefix:
+          type: string
+          readOnly: true
+        created:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          description: A free-form name for the API key. Need not be unique. 50 characters
+            max.
+          maxLength: 50
+        revoked:
+          type: boolean
+          description: If the API key is revoked, clients cannot use it anymore. (This
+            cannot be undone.)
+        api_service:
+          type: integer
+      required:
+      - api_service
+      - created
+      - id
+      - prefix
     TokenRefresh:
       type: object
       properties:
