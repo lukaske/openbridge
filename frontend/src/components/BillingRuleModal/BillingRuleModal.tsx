@@ -89,7 +89,7 @@ const BillingRuleModal: React.FC<BillingRuleModalProps> = ({ service }) => {
                     <th>Regex</th>
                     <th>Price</th>
                     <th>Priority</th>
-                    <th>Priority</th>
+                    <th>Actions</th>
                     <th>Created</th>
                     </tr>
                 </thead>
