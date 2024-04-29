@@ -152,6 +152,10 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const path = window.location.pathname;
+    if (path === '/dashboard/settings') {
+      setActive('Settings');
+      return;
+    }
     const activeItem = data.find((item) => item.link === path);
     if (activeItem) {
       setActive(activeItem.label);
@@ -190,7 +194,12 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
         </Navbar.Section>
   
         <Navbar.Section className={classes.footer}>
-          <a href="#" className={classes.link} onClick={(event) => redirectURL(event)}>
+          <a href="#" 
+            className={cx(classes.link, { [classes.linkActive]: 'Settings' === active })}
+            onClick={(event) => {
+            event.preventDefault();
+            push('/dashboard/settings');
+          }}>
             <IconSettings className={classes.linkIcon} stroke={1.5} />
             <span>Settings</span>
           </a>
