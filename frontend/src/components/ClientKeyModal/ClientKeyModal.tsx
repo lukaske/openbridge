@@ -17,9 +17,10 @@ import IssueAPIKey from './IssueApiKey';
 interface ClientKeyModalProps {
   service: APIService;
   fetch: () => void;
+  isDashboard?: boolean;
 }
 
-export function ClientKeyModal({ service, fetch: refetchParent }: ClientKeyModalProps) {
+export function ClientKeyModal({ service, fetch: refetchParent, isDashboard }: ClientKeyModalProps) {
     const [activePage, setActivePage] = useState(1);
     const { data: apiKeys, isFetching, refetch: refetchData  } = useClientApiKeysList({api_service: service.id, ordering: '-created', page: activePage, format: 'json'});
     const { mutateAsync: updateAsync, isPending: isPendingUpdate } = useClientApiKeysPartialUpdate();
@@ -82,7 +83,7 @@ export function ClientKeyModal({ service, fetch: refetchParent }: ClientKeyModal
     <>
         {user?.user? (
         <Button disabled={!service.active} fullWidth mt="md" radius="md" onClick={open}>
-            Activate API
+            {isDashboard? 'Manage API': 'Activate API'}
         </Button>
         ): (
         <Button disabled={!service.active} onClick={() => push('/login')} fullWidth mt="md" radius="md">

@@ -28,7 +28,7 @@ export default function Marketplace() {
             {isLoading && Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} style={{borderRadius: '0.5rem'}} visible={true}><AspectRatio ratio={360 / 430}></AspectRatio></Skeleton>)}
             {!isLoading && services?.results?.map((service: APIService) => (
                 
-                <ServiceCard key={service.id} {...service} />
+                <ServiceCard key={service.id} service={service} />
             ))}
 
         </SimpleGrid>

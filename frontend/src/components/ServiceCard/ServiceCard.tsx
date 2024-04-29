@@ -2,7 +2,12 @@ import { Card, Image, Text, Badge, Button, Group, Anchor, ScrollArea, Grid } fro
 import { APIService } from '../../api/model/aPIService';  
 import { ClientKeyModal } from '../ClientKeyModal/ClientKeyModal';
 
-export   function ServiceCard(service: APIService) {
+interface APIServiceProps {
+  service: APIService;
+  isDashboard?: boolean;
+}
+
+export function ServiceCard({service, isDashboard}: APIServiceProps) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
@@ -17,7 +22,7 @@ export   function ServiceCard(service: APIService) {
 
       <Group justify="space-between" mb="xs" style={{rowGap: 0}}>
         <Grid style={{width: '100%'}}>
-          <Grid.Col span={8}><Text fw={500}>{service.name}</Text></Grid.Col>
+          <Grid.Col span={8}><Text fw={500}>{service?.name}</Text></Grid.Col>
           <Grid.Col span={4}>{service.active? <Badge style={{float: 'right'}} color="lime">Available</Badge>: <Badge style={{float: 'right'}}  color="red">Unavailable</Badge>}</Grid.Col>
         </Grid>
         <Text style={{width: '100%'}}  size='xs'>Operator: {service.service_provider}</Text>
@@ -27,7 +32,7 @@ export   function ServiceCard(service: APIService) {
         </Text>
 
       </ScrollArea>
-      <ClientKeyModal service={service} fetch={() => {}} />
+      <ClientKeyModal service={service} isDashboard={isDashboard} fetch={() => {}} />
     </Card>
   );
 }
