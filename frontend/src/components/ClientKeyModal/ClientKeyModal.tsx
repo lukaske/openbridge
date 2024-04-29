@@ -84,7 +84,7 @@ export function ClientKeyModal({ service, fetch: refetchParent, isDashboard }: C
   return (
     <>
         {user?.user? (
-        <Button variant={isDashboard? "outline": "filled"} leftIcon={isDashboard? <IconKey/> :""} disabled={!service.active} fullWidth mt="md" radius="md" onClick={open}>
+        <Button variant={isDashboard? "filled": "filled"} leftIcon={isDashboard? <IconKey/> :""} disabled={!service.active} fullWidth mt="md" radius="md" onClick={open}>
             {isDashboard? 'Manage API Keys': 'Activate API'}
         </Button>
         ): (

@@ -795,6 +795,20 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/client-analytics/:
+    get:
+      operationId: client_analytics_retrieve
+      tags:
+      - client-analytics
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
   /api/client-api-keys/:
     get:
       operationId: client_api_keys_list
