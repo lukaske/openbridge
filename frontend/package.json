@@ -19,7 +19,6 @@
     "storybook:build": "build-storybook",
     "orval": "curl -o ./config/openbridge.yml https://openbridge.me/api/schema/ && orval --config ./orval.config.js",
     "orval-local": "curl -o ./config/openbridge.yml http://localhost:8000/api/schema/ && orval --config ./orval.config.js"
-
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -47,7 +46,8 @@
     "nextjs-toploader": "^1.6.11",
     "openapi-client-axios": "^7.2.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "recharts": "^2.12.6"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

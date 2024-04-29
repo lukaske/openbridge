@@ -10,6 +10,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
 from urllib.parse import urlparse
 from .helpers import generate_fernet_key
+from .raw_queries import getAnalyticsRawQuery
+from django.db import connection
 
 def root_view(request):
     return HttpResponse("Welcome to OpenBridge.me, visit <a href='https://app.openbridge.me'>app.openbridge.me</a> to get started. <br><br> Access API documentation at <a href='/api/'>http://openbridge.me/api/</a>.")
@@ -78,6 +80,20 @@ class BillingRuleViewset(viewsets.ModelViewSet):
 class SecurityViewset(viewsets.ViewSet):
     def list(self, request):
         return JsonResponse({'key': generate_fernet_key()})
+
+class AnalyticsViewset(viewsets.ViewSet):
+    def list(self, request):
+        if request.user.is_anonymous:
+            return JsonResponse({'error': 'Unauthorized'}, status=401)
+        with connection.cursor() as cursor:
+            cursor.execute(getAnalyticsRawQuery(), (request.user.id,))
+            data = cursor.fetchall()
+            data = [dict(zip([col[0] for col in cursor.description], row)) for row in data]
+            data = {
+                'user_id': request.user.id,
+                'analytics': data
+            }
+            return JsonResponse(data)
 
 class ServiceAPIKeyViewset(viewsets.ModelViewSet):
     queryset = ServiceAPIKey.objects.all().order_by('id')
