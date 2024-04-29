@@ -3,10 +3,8 @@ import { APIService } from '../../api/model/aPIService';
 import { ApiModal } from '../ApiModal/ApiModal';
 import { IconInfoCircle, IconX, IconKey } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
-import { useApiServiceList, useApiServiceDestroy, useApiServicePartialUpdate } from "../../api/endpoints/api-service/api-service";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { notifications } from '@mantine/notifications';
-import BillingRuleModal from '../BillingRuleModal/BillingRuleModal';
 import { useClientApiKeysList, useClientApiKeysPartialUpdate, useClientApiKeysUpdate } from '../../api/endpoints/client-api-keys/client-api-keys';
 import { useCurrentUser } from '../../hooks/auth/useCurrentUser';
 import { useRouter  } from 'next-nprogress-bar';
@@ -22,12 +20,16 @@ interface ClientKeyModalProps {
 
 export function ClientKeyModal({ service, fetch: refetchParent, isDashboard }: ClientKeyModalProps) {
     const [activePage, setActivePage] = useState(1);
-    const { data: apiKeys, isFetching, refetch: refetchData  } = useClientApiKeysList({api_service: service.id, ordering: '-created', page: activePage, format: 'json'});
+    const { data: apiKeys, isFetching, refetch: refetchData  } = useClientApiKeysList({api_service: service.id, ordering: '-created', page: activePage, format: 'json'}, {query: {enabled: false}});
     const { mutateAsync: updateAsync, isPending: isPendingUpdate } = useClientApiKeysPartialUpdate();
     const { user, refetchUser} = useCurrentUser();
     const [opened, { open, close }] = useDisclosure(false);
     const {push} = useRouter();
     let rows: any[] = [];
+
+    useEffect(() => {
+        if (opened) refetchData();
+    }, [opened, activePage]);
 
     const revokeApiKey = (key: ServiceAPIKey) => {
         updateAsync({prefix: key.prefix, data: {revoked: true}}).then(() => {
