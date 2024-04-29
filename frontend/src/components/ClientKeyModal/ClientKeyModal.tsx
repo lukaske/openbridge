@@ -1,7 +1,7 @@
 import { Card, Image, Text, Flex, Button, Group, Anchor, Center, Table, LoadingOverlay, Modal, Space, ScrollArea, Pagination } from '@mantine/core';
 import { APIService } from '../../api/model/aPIService';  
 import { ApiModal } from '../ApiModal/ApiModal';
-import { IconInfoCircle, IconX, IconPencil } from '@tabler/icons-react';
+import { IconInfoCircle, IconX, IconKey } from '@tabler/icons-react';
 import { modals } from '@mantine/modals';
 import { useApiServiceList, useApiServiceDestroy, useApiServicePartialUpdate } from "../../api/endpoints/api-service/api-service";
 import { useState } from 'react';
@@ -82,8 +82,8 @@ export function ClientKeyModal({ service, fetch: refetchParent, isDashboard }: C
   return (
     <>
         {user?.user? (
-        <Button leftIcon={isDashboard? <IconPencil/> :""} disabled={!service.active} fullWidth mt="md" radius="md" onClick={open}>
-            {isDashboard? 'Manage API': 'Activate API'}
+        <Button variant={isDashboard? "outline": "filled"} leftIcon={isDashboard? <IconKey/> :""} disabled={!service.active} fullWidth mt="md" radius="md" onClick={open}>
+            {isDashboard? 'Manage API Keys': 'Activate API'}
         </Button>
         ): (
         <Button disabled={!service.active} onClick={() => push('/login')} fullWidth mt="md" radius="md">
