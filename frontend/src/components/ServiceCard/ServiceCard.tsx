@@ -1,4 +1,4 @@
-import { Card, Image, Text, Badge, Button, Group, Anchor, ScrollArea, Grid } from '@mantine/core';
+import { Card, Image, Text, Badge, Button, Group, Anchor, ScrollArea, Grid, Code } from '@mantine/core';
 import { APIService } from '../../api/model/aPIService';  
 import { ClientKeyModal } from '../ClientKeyModal/ClientKeyModal';
 
@@ -28,7 +28,12 @@ export function ServiceCard({service, isDashboard}: APIServiceProps) {
         <Text style={{width: '100%'}}  size='xs'>Operator: {service.service_provider}</Text>
       </Group>
         <Text size="xs" c="dimmed">
-          {service.description}
+          {!isDashboard? service.description: (
+            <>
+              <Code block>https://openbridge.me/b/{service.url_compatible_name}/</Code>
+              <Code mt='xs' block>Authorization: Token abc123</Code>
+            </>
+          )}
         </Text>
 
       </ScrollArea>
