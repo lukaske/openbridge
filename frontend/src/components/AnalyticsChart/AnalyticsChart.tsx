@@ -22,7 +22,19 @@ class Example extends PureComponent<ExampleProps> {
   render() {
     const { data } = this.props;
     if (!data) return null;
-    let uniqueDates = [...new Set(data.map((item) => item.days))];
+    const uniqueDates = Array.from({ length: 13 }, (_, index) => `day-${index + 1}`).reverse();
+    const formatDate = (date: Date): string => {
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      return `${day}/${month}`;
+    };
+
+    const today = new Date();
+    const realDates = Array.from({ length: 13 }, (_, index) => {
+      const pastDate = new Date(today);
+      pastDate.setDate(today.getDate() - index - 1);
+      return formatDate(pastDate);
+    }).reverse();
     let uniqueAPIs = [...new Set(data.map((item) => {
       const identifier = item.api_service_name + ' [' + item.id + ']';
       item.id = identifier;
@@ -41,11 +53,13 @@ class Example extends PureComponent<ExampleProps> {
           temp[api] = 0;
         }
       }
+      temp['name'] = realDates[i];
       displayed.push(temp);
     }
+    
     console.log(displayed)
     return (
-      <ResponsiveContainer width="100%" height="80%">
+      <ResponsiveContainer  width="100%" height="80%">
         <AreaChart
           width={500}
           height={400}
@@ -58,8 +72,8 @@ class Example extends PureComponent<ExampleProps> {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name"  />
+          <YAxis label={{ value: 'Requests', angle: -90, position: 'insideLeft', offset: 10 }} />
           <Tooltip  />
           {uniqueAPIs.map((api, index) => (
             <Area type="monotone" dataKey={api} stackId="1" stroke={colors[index % colors.length]} fill={colors[index % colors.length]} />
