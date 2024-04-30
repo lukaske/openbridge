@@ -10,7 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.http import JsonResponse
 from urllib.parse import urlparse
 from .helpers import generate_fernet_key
-from .raw_queries import getAnalyticsRawQuery
+from .raw_queries import getAnalyticsRawQuery, getAnalyticsRawQueryOwner
 from django.db import connection
 
 def root_view(request):
@@ -87,13 +87,17 @@ class AnalyticsViewset(viewsets.ViewSet):
             return JsonResponse({'error': 'Unauthorized'}, status=401)
         with connection.cursor() as cursor:
             cursor.execute(getAnalyticsRawQuery(), (request.user.id,))
-            data = cursor.fetchall()
-            data = [dict(zip([col[0] for col in cursor.description], row)) for row in data]
-            data = {
+            data1 = cursor.fetchall()
+            data1 = [dict(zip([col[0] for col in cursor.description], row)) for row in data1]
+            cursor.execute(getAnalyticsRawQueryOwner(), (request.user.id,))
+            data2 = cursor.fetchall()
+            data2 = [dict(zip([col[0] for col in cursor.description], row)) for row in data2]
+            response = {
                 'user_id': request.user.id,
-                'analytics': data
+                'used': data1,
+                'provided': data2
             }
-            return JsonResponse(data)
+            return JsonResponse(response)
 
 class ServiceAPIKeyViewset(viewsets.ModelViewSet):
     queryset = ServiceAPIKey.objects.all().order_by('id')

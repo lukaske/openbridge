@@ -1,59 +1,55 @@
 import React, { PureComponent } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
+interface ExampleProps {
+  data: any[]; // Replace `any[]` with the actual type of your data
+}
+
+const colors = [
+  "#8884d8", "#82ca9d", "#ffc658", "#ff7300", "#ff3860", // Additional colors
+  "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF", // More colors
+  "#0066cc", "#ff99ff", "#009999", "#ff9933", "#3399ff", // Even more colors
+  "#ff3333", "#00ff00", "#9900cc", "#ffff00", "#006633"  // And more colors
 ];
 
-class Example extends PureComponent {
+class Example extends PureComponent<ExampleProps> {
+  constructor(props: ExampleProps) {
+    super(props);
+    const { data } = props;
+    // Manipulate the data prop here
+  }
+
   render() {
+    const { data } = this.props;
+    if (!data) return null;
+    let uniqueDates = [...new Set(data.map((item) => item.days))];
+    let uniqueAPIs = [...new Set(data.map((item) => {
+      const identifier = item.api_service_name + ' [' + item.id + ']';
+      item.id = identifier;
+      return identifier;
+    } ))];
+    let displayed = [];
+    for (let i = 0; i < uniqueDates.length; i++) {
+      let temp = {};
+      temp['name'] = uniqueDates[i];
+      for (let j = 0; j < uniqueAPIs.length; j++) {
+        let api = uniqueAPIs[j];
+        let usage = data.find((item) => item.id === api && item.days === uniqueDates[i]);
+        if (usage) {
+          temp[api] = usage.count;
+        } else {
+          temp[api] = 0;
+        }
+      }
+      displayed.push(temp);
+    }
+    console.log(displayed)
     return (
       <ResponsiveContainer width="100%" height="80%">
         <AreaChart
           width={500}
           height={400}
-          data={data}
+          data={displayed}
           margin={{
             top: 10,
             right: 30,
@@ -64,16 +60,14 @@ class Example extends PureComponent {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
-          <Tooltip />
-          <Area type="monotone" dataKey="uv" stackId="1" stroke="#8884d8" fill="#8884d8" />
-          <Area type="monotone" dataKey="pv" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-          <Area type="monotone" dataKey="amt" stackId="1" stroke="#ffc658" fill="#ffc658" />
+          <Tooltip  />
+          {uniqueAPIs.map((api, index) => (
+            <Area type="monotone" dataKey={api} stackId="1" stroke={colors[index % colors.length]} fill={colors[index % colors.length]} />
+          ))}
         </AreaChart>
       </ResponsiveContainer>
     );
   }
 }
-
-
 
 export default Example;
