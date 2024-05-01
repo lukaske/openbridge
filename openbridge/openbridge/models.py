@@ -4,11 +4,20 @@ from django.contrib.auth import get_user_model
 from .helpers import regex_validator, decrypt_string, encrypt_string
 from django.utils.translation import gettext_lazy as _
 from rest_framework_api_key.models import AbstractAPIKey, BaseAPIKeyManager
+from django.core.exceptions import ValidationError
+import re
 
 def is_alphanumeric(value):
     return value.isalnum()
 
 User = get_user_model()
+
+def regex_validator(value):
+    try:
+        re.compile(value)
+        return True
+    except re.error:
+        raise ValidationError('Regex is invalid')
 
 class APIService(models.Model):
     id = models.AutoField(primary_key=True)
@@ -74,15 +83,12 @@ class APIRequest(models.Model):
 
 class UserBills(models.Model):
     class BillType(models.TextChoices):
-        DAILY = 'DAY', _('Daily')
-        MONTHLY = 'MONTH', _('Monthly')
-        WEEKLY = 'YEAR', _('Yearly')
+        DEBIT = 'DEBIT', _('Debit')
+        CREDIT = 'CREDIT', _('Credit')
 
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    billing_rule = models.ForeignKey(BillingRule, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(decimal_places=5, default=0, max_digits=10)
     amount = models.DecimalField(decimal_places=5, default=0, max_digits=10)
     bill_type = models.CharField(choices=BillType.choices, max_length=10)
 
