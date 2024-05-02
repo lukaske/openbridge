@@ -995,6 +995,225 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/client-balance/:
+    get:
+      operationId: client_balance_retrieve
+      tags:
+      - client-balance
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/client-ledger/:
+    get:
+      operationId: client_ledger_list
+      parameters:
+      - in: query
+        name: api_service_id
+        schema:
+          type: integer
+          nullable: true
+      - in: query
+        name: billing_period
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_at
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: credit
+        schema:
+          type: number
+      - in: query
+        name: debit
+        schema:
+          type: number
+      - in: query
+        name: id
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - client-ledger
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserLedgerList'
+          description: ''
+    post:
+      operationId: client_ledger_create
+      tags:
+      - client-ledger
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLedger'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLedger'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserLedger'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLedger'
+          description: ''
+  /api/client-ledger/{id}/:
+    get:
+      operationId: client_ledger_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user ledger.
+        required: true
+      tags:
+      - client-ledger
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLedger'
+          description: ''
+    put:
+      operationId: client_ledger_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user ledger.
+        required: true
+      tags:
+      - client-ledger
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLedger'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserLedger'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserLedger'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLedger'
+          description: ''
+    patch:
+      operationId: client_ledger_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user ledger.
+        required: true
+      tags:
+      - client-ledger
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserLedger'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserLedger'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserLedger'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLedger'
+          description: ''
+    delete:
+      operationId: client_ledger_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user ledger.
+        required: true
+      tags:
+      - client-ledger
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/client-services/:
     get:
       operationId: client_services_list
@@ -1253,6 +1472,18 @@ components:
       - updated_at
       - url
       - url_compatible_name
+    APIServiceMinimal:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 200
+      required:
+      - id
+      - name
     BillingRule:
       type: object
       properties:
@@ -1379,6 +1610,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ServiceAPIKey'
+    PaginatedUserLedgerList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserLedger'
     PasswordChange:
       type: object
       properties:
@@ -1533,6 +1784,35 @@ components:
         last_name:
           type: string
           maxLength: 150
+    PatchedUserLedger:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        api_service:
+          $ref: '#/components/schemas/APIServiceMinimal'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        debit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,5}(?:\.\d{0,5})?$
+        credit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,5}(?:\.\d{0,5})?$
+        billing_period:
+          type: string
+          format: date-time
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        user:
+          type: integer
     Register:
       type: object
       properties:
@@ -1640,6 +1920,40 @@ components:
       required:
       - email
       - pk
+    UserLedger:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        api_service:
+          $ref: '#/components/schemas/APIServiceMinimal'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        debit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,5}(?:\.\d{0,5})?$
+        credit:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,5}(?:\.\d{0,5})?$
+        billing_period:
+          type: string
+          format: date-time
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        user:
+          type: integer
+      required:
+      - api_service
+      - created_at
+      - id
+      - user
     VerifyEmail:
       type: object
       properties:
