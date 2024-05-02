@@ -9,7 +9,7 @@
 - API definicija: [https://openbridge.me/api/](https://openbridge.me/api/schema/swagger)
 
  ## ER Diagram
- Generiran avtomatsko na podlagi obstoječih modelov (še ni posodobljen)
+ Generiran avtomatsko na podlagi obstoječih modelov
  
  ![ER](https://raw.githubusercontent.com/lukaske/openbridge/430a106314b31105f789805fcaf005a7c5443940/openbridge/ERD.svg)
 
