@@ -24,7 +24,7 @@ curl --location 'https://openbridge.me/b/cat-facts-111/fact/' \
 --header 'Authorization: Api-Key QoQDZLzK.fM2ZUWRXePfNgyxtHYdK1kiHfhjw4vSL' \
 ```
 4. Uporabnik preveri statistiko svoje uporabe
-5. Uporabnik izračuna stroške v zavihku "Billing" (v originalu CRON job, za demo namenski gumb)ex
+5. Uporabnik izračuna stroške v zavihku "Billing" (v originalu CRON job, za demo namenski gumb)
 
  ## Ekipa
  Luka Skeledžija
