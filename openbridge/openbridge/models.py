@@ -87,4 +87,7 @@ class UserLedger(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     debit = models.DecimalField(decimal_places=5, default=0, max_digits=10)
     credit = models.DecimalField(decimal_places=5, default=0, max_digits=10)
+    api_service = models.ForeignKey(APIService, on_delete=models.CASCADE, null=True)
+    billing_period = models.DateTimeField(null=True)
+    description = models.TextField(null=True)
 

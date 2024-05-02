@@ -2,6 +2,7 @@ from django.db import transaction
 from django.contrib.auth import get_user_model
 from .models import APIRequest, BillingRule, UserLedger, APIService
 from datetime import datetime as dt
+from django.utils import timezone
 import re
 
 User = get_user_model()
@@ -40,23 +41,25 @@ def apply_billing_rule(request, rules, levels):
 def generate_bills(from_date=dt.min, to_date=dt.today()):
     # Limit the start_date
     from_date = APIRequest.objects.order_by('created_at').first().created_at
-    # Generate the months between the from_date and to_date
-    months = get_month_starts(from_date, to_date)
+    # Generate the months between the from_date and to_date, excluding the last month
+    months = get_month_starts(from_date, to_date)[:-2]
     for i, month in enumerate(months):
+        month_tz_aware = timezone.make_aware(month, timezone=timezone.get_current_timezone())
         with transaction.atomic():
+            print(f'Billing for month: {month}')
             calculated_all_totals = True
             api_earning = {}
-            users = APIRequest.objects.filter(created_at__month=month.month).values('user').distinct()
-            for user in users:
+            users = APIRequest.objects.filter(created_at__month=month.month, created_at__year=month.year).values('user').distinct()
+            for i, user in enumerate(users):
                 user_id = user['user']
-                api_services = APIRequest.objects.filter(user=user_id, created_at__month=month.month).values('api_service')
+                api_services = APIRequest.objects.filter(user=user_id, created_at__month=month.month, created_at__year=month.year).values('api_service')
                 distinct_api_services = api_services.distinct()
+                print(f'Processing user {i+1} / {len(users)}, {len(distinct_api_services)} distinct API services used.')
                 for api_service in distinct_api_services:
-
                     api_service_id = api_service['api_service']
                     billing_rules = BillingRule.objects.filter(api_service=api_service_id).values()
                     rules, levels = group_by(billing_rules)
-                    logs = APIRequest.objects.filter(user=user_id, api_service=api_service_id, created_at__month=month.month).values()
+                    logs = APIRequest.objects.filter(user=user_id, api_service=api_service_id, created_at__month=month.month, created_at__year=month.year).values()
                     bill = 0
                     calculated_total = False
                     for log in logs:
@@ -67,15 +70,14 @@ def generate_bills(from_date=dt.min, to_date=dt.today()):
                             print(e)
                             print(f'Error in applying billing rule for {user_id} and {api_service_id}')
                     if calculated_total:
-                        UserLedger.objects.create(user_id=user_id, credit=bill)
+                        UserLedger.objects.create(user_id=user_id, credit=bill, billing_period=month_tz_aware, api_service_id=api_service_id, description='Usage of API')
                         api_earning[api_service_id] = api_earning.get(api_service_id, 0) + bill
-                        APIRequest.objects.filter(user=user_id, api_service=api_service_id, created_at__month=month.month).delete()
+                        APIRequest.objects.filter(user=user_id, api_service=api_service_id, created_at__month=month.month, created_at__year=month.year).delete()
                     else:
                         calculated_all_totals = False
             api_services = APIService.objects.all()
             for api_service in api_services:
-                UserBills.objects.create(user_id=api_service.owner, debit=UserLedger.BillType.DEBIT)
-
-            if not calculated_all_totals:
-                print(f'Error in calculating total for {month}! Missing logs / unsuccessful regex!')
+                UserLedger.objects.create(user_id=api_service.owner.id, debit=api_earning.get(api_service.id, 0), billing_period=month_tz_aware, api_service_id=api_service.id, description='Earnings from API usage')
+            if calculated_all_totals: print(f'Successfully processed month: {month}')
+            else: print(f'Error in calculating total for {month}! Missing logs / unsuccessful regex!')
     return True
