@@ -11,12 +11,15 @@ export function middleware(request: NextRequest) {
   ) {
     request.cookies.delete("currentUser");
     const response = NextResponse.redirect(new URL("/login", request.url));
+    response.headers.set('x-middleware-cache', 'no-cache');
     response.cookies.delete("currentUser");
 
     return response;
   }
 
   if (authRoutes.includes(request.nextUrl.pathname) && currentUser) {
-    return NextResponse.redirect(new URL("/dashboard/my-api", request.url));
+    const response = NextResponse.redirect(new URL("/dashboard/my-api", request.url));
+    response.headers.set('x-middleware-cache', 'no-cache');
+    return response
   }
 }
