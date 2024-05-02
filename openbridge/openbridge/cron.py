@@ -1,6 +1,6 @@
 from django.db import transaction
 from django.contrib.auth import get_user_model
-from .models import APIRequest, BillingRule, UserBills, APIService
+from .models import APIRequest, BillingRule, UserLedger, APIService
 from datetime import datetime as dt
 import re
 
@@ -67,14 +67,15 @@ def generate_bills(from_date=dt.min, to_date=dt.today()):
                             print(e)
                             print(f'Error in applying billing rule for {user_id} and {api_service_id}')
                     if calculated_total:
-                        UserBills.objects.create(user_id=user_id, amount=-bill, bill_type=UserBills.BillType.CREDIT)
+                        UserLedger.objects.create(user_id=user_id, credit=bill)
                         api_earning[api_service_id] = api_earning.get(api_service_id, 0) + bill
                         APIRequest.objects.filter(user=user_id, api_service=api_service_id, created_at__month=month.month).delete()
                     else:
                         calculated_all_totals = False
             api_services = APIService.objects.all()
             for api_service in api_services:
-                UserBills.objects.create(user_id=api_service.owner, amount=api_earning[api_service.id], bill_type=UserBills.BillType.DEBIT)
+                UserBills.objects.create(user_id=api_service.owner, debit=UserLedger.BillType.DEBIT)
+
             if not calculated_all_totals:
                 print(f'Error in calculating total for {month}! Missing logs / unsuccessful regex!')
     return True

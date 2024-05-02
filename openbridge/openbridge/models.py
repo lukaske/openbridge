@@ -81,15 +81,10 @@ class APIRequest(models.Model):
     method = models.CharField(max_length=10, null=True)
     details = models.TextField(null=True)
 
-class UserBills(models.Model):
-    class BillType(models.TextChoices):
-        DEBIT = 'DEBIT', _('Debit')
-        CREDIT = 'CREDIT', _('Credit')
-
+class UserLedger(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    amount = models.DecimalField(decimal_places=5, default=0, max_digits=10)
-    bill_type = models.CharField(choices=BillType.choices, max_length=10)
-
+    debit = models.DecimalField(decimal_places=5, default=0, max_digits=10)
+    credit = models.DecimalField(decimal_places=5, default=0, max_digits=10)
 
