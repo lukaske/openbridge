@@ -1,40 +1,69 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { modals } from '@mantine/modals';
-import {Text, Title, Container, Card, Flex, LoadingOverlay, Group, Button, Table } from '@mantine/core';
+import {Text, Title, Container, Card, Flex, LoadingOverlay, Group, Button, Table, Center, Pagination } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { useClientBalanceList } from '../../src/api/endpoints/client-balance/client-balance';
+import { useClientLedgerList } from '../../src/api/endpoints/client-ledger/client-ledger';
+import { UserLedger } from '../../src/api/model';
 
 const Billing: React.FC = () => {
+  const [activePage, setActivePage] = useState(1);
+  const {data: balance, refetch: refetchBalance, isFetching: isRefetchingBalance} = useClientBalanceList();
+  const {data: billingHistory, refetch: refetchLedger, isFetching: isRefetchingBillingHistory} = useClientLedgerList({page: activePage, ordering: '-billing_period'});
+
+  const refetchData = () => {
+    if (activePage !== 1) setActivePage(1);
+    else refetchLedger();
+  };
+
+
+  const rows = billingHistory?.results?.map((element: UserLedger) => {
+    const credit = parseFloat(element.credit) || 0;
+    const debit = parseFloat(element.debit) || 0;
+    const balance = debit - credit;  
+    return(
+    <tr key={element.id}>
+      <td>{element.id}</td>
+      <td>{balance.toFixed(3)}</td>
+      <td>{new Date(element.billing_period).toUTCString()}</td>
+      <td>{`${element.api_service.name} [${element.id}]`}</td>
+      <td>{element.description}</td>
+    </tr>
+  )});
+
 
   return <>
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Group position='apart'>
-            <Title order={3}>My Balance: {'13.30'} €</Title>
+            <Title order={3}>My Balance: {parseFloat(balance?.balance) || '--'} €</Title>
             <Button onClick={() => notifications.show({
               title: 'Sorry!',
               message: 'Credit card top-up is not yet available.',
               color: 'red',
             })}>Top up with credit card</Button>
           </Group>
-            <LoadingOverlay visible={false} />
+            <LoadingOverlay visible={isRefetchingBalance} />
           </Card>
         <Card shadow="sm" mt='xl' padding="lg" radius="md" withBorder>
           <Title order={3}>Billing History</Title>
 
-          <Table>
+          <Table mt='lg'>
             <thead>
               <tr>
                 <th>Tx ID</th>
-                <th>Amount</th>
+                <th>Amount (€)</th>
                 <th>Billing period</th>
-                <th>Issue date</th>
                 <th>API Service</th>
                 <th>Description</th>
               </tr>
             </thead>
             <tbody>{rows}</tbody>
           </Table>
+          <Center>
+              <Pagination disabled={isRefetchingBillingHistory} ta="center" mt="lg" mb="lg" value={activePage} onChange={setActivePage} total={Math.ceil(billingHistory?.count / 9) || 1} />
+          </Center>
 
-            <LoadingOverlay visible={false} />
+            <LoadingOverlay visible={isRefetchingBillingHistory} />
         </Card>
 
 

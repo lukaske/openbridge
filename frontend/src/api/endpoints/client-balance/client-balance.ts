@@ -12,28 +12,29 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
+import type { Balance } from "../../model";
 import { customInstance } from "../../../services/custom-axios-instance";
 import type { ErrorType } from "../../../services/custom-axios-instance";
 
-export const clientBalanceRetrieve = (signal?: AbortSignal) => {
-  return customInstance<void>({
+export const clientBalanceList = (signal?: AbortSignal) => {
+  return customInstance<Balance[]>({
     url: `/api/client-balance/`,
     method: "GET",
     signal,
   });
 };
 
-export const getClientBalanceRetrieveQueryKey = () => {
+export const getClientBalanceListQueryKey = () => {
   return [`/api/client-balance/`] as const;
 };
 
-export const getClientBalanceRetrieveQueryOptions = <
-  TData = Awaited<ReturnType<typeof clientBalanceRetrieve>>,
+export const getClientBalanceListQueryOptions = <
+  TData = Awaited<ReturnType<typeof clientBalanceList>>,
   TError = ErrorType<unknown>
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<typeof clientBalanceRetrieve>>,
+      Awaited<ReturnType<typeof clientBalanceList>>,
       TError,
       TData
     >
@@ -41,37 +42,37 @@ export const getClientBalanceRetrieveQueryOptions = <
 }) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getClientBalanceRetrieveQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getClientBalanceListQueryKey();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof clientBalanceRetrieve>>
-  > = ({ signal }) => clientBalanceRetrieve(signal);
+    Awaited<ReturnType<typeof clientBalanceList>>
+  > = ({ signal }) => clientBalanceList(signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof clientBalanceRetrieve>>,
+    Awaited<ReturnType<typeof clientBalanceList>>,
     TError,
     TData
   > & { queryKey: QueryKey };
 };
 
-export type ClientBalanceRetrieveQueryResult = NonNullable<
-  Awaited<ReturnType<typeof clientBalanceRetrieve>>
+export type ClientBalanceListQueryResult = NonNullable<
+  Awaited<ReturnType<typeof clientBalanceList>>
 >;
-export type ClientBalanceRetrieveQueryError = ErrorType<unknown>;
+export type ClientBalanceListQueryError = ErrorType<unknown>;
 
-export const useClientBalanceRetrieve = <
-  TData = Awaited<ReturnType<typeof clientBalanceRetrieve>>,
+export const useClientBalanceList = <
+  TData = Awaited<ReturnType<typeof clientBalanceList>>,
   TError = ErrorType<unknown>
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<typeof clientBalanceRetrieve>>,
+      Awaited<ReturnType<typeof clientBalanceList>>,
       TError,
       TData
     >
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-  const queryOptions = getClientBalanceRetrieveQueryOptions(options);
+  const queryOptions = getClientBalanceListQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

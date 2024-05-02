@@ -2,7 +2,7 @@ import re
 from revproxy.views import ProxyView
 from rest_framework import viewsets
 from .models import APIService, BillingRule, APIRequest, ServiceAPIKey, UserLedger
-from .serializers import APIServiceSerializer, BillingRuleSerializer, ServiceAPIKeySerializer, UserLedgerSerializer
+from .serializers import APIServiceSerializer, BillingRuleSerializer, ServiceAPIKeySerializer, UserLedgerSerializer, BalanceSerializer
 from django.http import HttpResponse
 from rest_framework import permissions, filters
 from .permissions import IsOwnerOrReadOnly, IsInheritedOrReadOnly, HasServiceAPIKey, ShowOnlyToOwner
@@ -84,6 +84,7 @@ class SecurityViewset(viewsets.ViewSet):
         return JsonResponse({'key': generate_fernet_key()})
 
 class ClientBalanceViewset(viewsets.ViewSet):
+    serializer_class = BalanceSerializer
     allowed_methods = ['GET']
     def list(self, request):
         if request.user.is_anonymous:

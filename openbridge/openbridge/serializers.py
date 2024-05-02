@@ -87,4 +87,8 @@ class ServiceAPIKeySerializer(serializers.ModelSerializer):
             data['key'] = self.key
         return data
 
+class BalanceSerializer(serializers.Serializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    balance = serializers.DecimalField(max_digits=10, decimal_places=5)
+
 

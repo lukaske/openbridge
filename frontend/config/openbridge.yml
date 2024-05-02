@@ -997,7 +997,7 @@ paths:
           description: No response body
   /api/client-balance/:
     get:
-      operationId: client_balance_retrieve
+      operationId: client_balance_list
       tags:
       - client-balance
       security:
@@ -1008,7 +1008,13 @@ paths:
       - {}
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Balance'
+          description: ''
   /api/client-ledger/:
     get:
       operationId: client_ledger_list
@@ -1484,6 +1490,19 @@ components:
       required:
       - id
       - name
+    Balance:
+      type: object
+      properties:
+        user:
+          type: string
+          readOnly: true
+        balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,5}(?:\.\d{0,5})?$
+      required:
+      - balance
+      - user
     BillingRule:
       type: object
       properties:
