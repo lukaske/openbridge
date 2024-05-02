@@ -16,7 +16,7 @@ import { authService } from '../../services';
 import { useState } from 'react'
 
 export function RegisrationTitle() {
-  const push = useRouter().push;
+  const reload = useRouter().reload;
   const auth = authService;
   const [loginProcessing, setLoginProcessing] = useState(false);
 
@@ -24,7 +24,7 @@ export function RegisrationTitle() {
     setLoginProcessing(true);
     auth.register(input).then((res) => {
       if (res){
-        push('/dashboard/my-api');
+        reload();
       }
       else{
         setLoginProcessing(false)

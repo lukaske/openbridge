@@ -16,7 +16,7 @@ import { useLogin } from '../../hooks/auth/useLogin';
 import {useEffect, useState } from 'react'
 
 export function AuthenticationTitle() {
-  const push = useRouter().push;
+  const router = useRouter();
   const auth = useLogin().login;
   const [loginProcessing, setLoginProcessing] = useState(false);
 
@@ -24,12 +24,13 @@ export function AuthenticationTitle() {
     setLoginProcessing(true);
     auth(input).then((res) => {
       if (res){
-        push('/dashboard/my-api');
+        router.refresh();
         return true;
       }
       setLoginProcessing(false)
     });
   }
+
   const form = useForm({
     initialValues: { email: '', password: '', stayLoggedIn: true },
 

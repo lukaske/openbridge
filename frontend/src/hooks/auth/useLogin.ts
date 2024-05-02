@@ -13,7 +13,6 @@ export const useLogin = () => {
     }
     const expirationDate = new Date(jwt.access_expiration);
     Cookies.set("currentUser", JSON.stringify(jwt), { expires: expirationDate, path: "/"});
-    router.reload()
     return jwt.user;
   };
 
