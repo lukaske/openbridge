@@ -21,15 +21,18 @@ from django.urls import re_path
 from rest_framework.routers import DefaultRouter
 from .views import (ServiceProxyView, APIServiceViewset, BillingRuleViewset, root_view,
                     SecurityViewset, ServiceAPIKeyViewset, ClientSubcriptionsViewset,
-                    AnalyticsViewset)
+                    AnalyticsViewset, UserLedgerViewset, ClientBalanceViewset)
 
 router = DefaultRouter()
 router.register(r'api-service', APIServiceViewset, basename='api-service')
 router.register(r'billing-rule', BillingRuleViewset, basename='billing-rule')
 router.register(r'client-api-keys', ServiceAPIKeyViewset, basename='client-api-keys')
 router.register(r'client-services', ClientSubcriptionsViewset, basename='client-services')
+router.register(r'client-balance', ClientBalanceViewset, basename='client-balance')
+router.register(r'client-ledger', UserLedgerViewset, basename='client-ledger')
 router.register(r'client-analytics', AnalyticsViewset, basename='client-analytics')
 router.register(r'key-gen', SecurityViewset, basename='key-gen')
+
 
 
 urlpatterns = [

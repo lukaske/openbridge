@@ -1,8 +1,8 @@
 import re
 from revproxy.views import ProxyView
 from rest_framework import viewsets
-from .models import APIService, BillingRule, APIRequest, ServiceAPIKey
-from .serializers import APIServiceSerializer, BillingRuleSerializer, ServiceAPIKeySerializer
+from .models import APIService, BillingRule, APIRequest, ServiceAPIKey, UserLedger
+from .serializers import APIServiceSerializer, BillingRuleSerializer, ServiceAPIKeySerializer, UserLedgerSerializer
 from django.http import HttpResponse
 from rest_framework import permissions, filters
 from .permissions import IsOwnerOrReadOnly, IsInheritedOrReadOnly, HasServiceAPIKey, ShowOnlyToOwner
@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 from .helpers import generate_fernet_key
 from .raw_queries import getAnalyticsRawQuery, getAnalyticsRawQueryOwner
 from django.db import connection
+from django.db.models import Sum
 
 def root_view(request):
     return HttpResponse("Welcome to OpenBridge.me, visit <a href='https://app.openbridge.me'>app.openbridge.me</a> to get started. <br><br> Access API documentation at <a href='/api/'>http://openbridge.me/api/</a>.")
@@ -78,8 +79,22 @@ class BillingRuleViewset(viewsets.ModelViewSet):
         )
 
 class SecurityViewset(viewsets.ViewSet):
+    allowed_methods = ['GET']
     def list(self, request):
         return JsonResponse({'key': generate_fernet_key()})
+
+class ClientBalanceViewset(viewsets.ViewSet):
+    allowed_methods = ['GET']
+    def list(self, request):
+        if request.user.is_anonymous:
+            return JsonResponse({'error': 'Unauthorized'}, status=401)
+        user = request.user
+        balance = UserLedger.objects.filter(user=user).aggregate(price_diff=Sum('debit', default=0) - Sum('credit', default=0))
+        response = {
+            'user_id': user.id,
+            'balance': balance['price_diff']
+        }
+        return JsonResponse(response)
 
 class AnalyticsViewset(viewsets.ViewSet):
     def list(self, request):
@@ -137,5 +152,23 @@ class ClientSubcriptionsViewset(viewsets.ModelViewSet):
         return super().get_queryset(*args, **kwargs).filter(
             id__in=ServiceAPIKey.objects.filter(owner=self.request.user).values('api_service_id')
         )
+
+class UserLedgerViewset(viewsets.ModelViewSet):
+    queryset = UserLedger.objects.all().order_by('created_at').select_related('api_service')
+    serializer_class = UserLedgerSerializer
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['id', 'api_service_id', 'billing_period', 'created_at', 'debit', 'credit']
+    ordering_fields = ['id', 'api_service_id', 'billing_period', 'created_at', 'debit', 'credit']
+    search_fields = ['description']
+    allowed_methods = ['GET']
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_anonymous:
+            return UserLedger.objects.none()
+        return super().get_queryset(*args, **kwargs).filter(
+            user_id=self.request.user.id
+    )
 
 

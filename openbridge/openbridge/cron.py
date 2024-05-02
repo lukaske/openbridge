@@ -70,7 +70,7 @@ def generate_bills(from_date=dt.min, to_date=dt.today()):
                             print(e)
                             print(f'Error in applying billing rule for {user_id} and {api_service_id}')
                     if calculated_total:
-                        UserLedger.objects.create(user_id=user_id, credit=bill, billing_period=month_tz_aware, api_service_id=api_service_id, description='Usage of API')
+                        UserLedger.objects.create(user_id=user_id, credit=bill, billing_period=month_tz_aware, api_service_id=api_service_id, description=f'Usage of API')
                         api_earning[api_service_id] = api_earning.get(api_service_id, 0) + bill
                         APIRequest.objects.filter(user=user_id, api_service=api_service_id, created_at__month=month.month, created_at__year=month.year).delete()
                     else:

@@ -44,7 +44,13 @@ class BillingRuleSerializer(serializers.ModelSerializer):
         fields = '__all__'
         ordering = ['id']
 
+class APIServiceMinimalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = APIService
+        fields = ['id', 'name']
+        ordering = ['id']
 class UserLedgerSerializer(serializers.ModelSerializer):
+    api_service = APIServiceMinimalSerializer()
     class Meta:
         model = UserLedger
         fields = '__all__'
