@@ -42,7 +42,7 @@ class APIService(models.Model):
 
 class ServiceAPIKeyManager(BaseAPIKeyManager):
     def get_usable_keys(self):
-        return super().get_usable_keys().filter(api_service__ServiceAPIKeyactive=True)
+        return super().get_usable_keys().filter(api_service__active=True)
 
 class ServiceAPIKey(AbstractAPIKey):
     objects = ServiceAPIKeyManager()

@@ -35,13 +35,10 @@ router.register(r'key-gen', SecurityViewset, basename='key-gen')
 urlpatterns = [
     path('', root_view, name='root'),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
     path('api/auth/', include('dj_rest_auth.urls')),
-    path("accounts/", include("allauth.urls")),  # new
     path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/', include(router.urls)),
-
-    re_path(r'b/(?P<site>\w+)/(?P<path>.*)', ServiceProxyView.as_view()),
+    path('b/<slug:site>/<path:path>/', ServiceProxyView.as_view()),
 ]

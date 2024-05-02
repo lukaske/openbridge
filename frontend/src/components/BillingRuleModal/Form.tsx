@@ -84,7 +84,7 @@ function BillingRuleForm({ actionFunction, passedValues, service }: BillingRuleF
                     mt="xs"
                     withAsterisk
                     type="number"
-                    step="0.01"
+                    step="0.00001"
                     label="Price Per"
                     placeholder="Price Per"
                     {...form.getInputProps('price_per')}

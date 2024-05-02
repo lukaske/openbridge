@@ -31,7 +31,7 @@ export function ServiceCard({service, isDashboard}: APIServiceProps) {
           {!isDashboard? service.description: (
             <>
               <Code block>https://openbridge.me/b/{service.url_compatible_name}/</Code>
-              <Code mt='xs' block>Authorization: Token {'<issued_token>'}</Code>
+              <Code mt='xs' block>Authorization: Api-Key {'<issued_token>'}</Code>
             </>
           )}
         </Text>

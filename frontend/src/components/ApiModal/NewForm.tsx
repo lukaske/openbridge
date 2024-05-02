@@ -28,8 +28,8 @@ function NewForm({actionFunction, passedValues}: NewFormProps) {
     if (!passedValues) initialValues = {
         name: 'Cat Facts',
         service_provider: 'The Cat Facts Company',
-        description: 'This API provides random cat facts. Please refer to the documentation for more information on catfacts.com',
-        url: 'https://api.thecatfacts.com/',
+        description: 'This API provides random cat facts. Docs available on: https://catfact.ninja/',
+        url: 'https://catfact.ninja/',
         url_compatible_name: 'cat-facts',
         image: 'https://thecatfacts.com/catfacts.png',
         api_key: 'abc123',
