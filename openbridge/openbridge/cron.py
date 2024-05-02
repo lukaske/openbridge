@@ -1,6 +1,7 @@
 from django.db import transaction
 from django.contrib.auth import get_user_model
 from .models import APIRequest, BillingRule, UserLedger, APIService
+from rest_framework.response import Response
 from datetime import datetime as dt
 from django.utils import timezone
 import re
@@ -42,7 +43,8 @@ def generate_bills(from_date=dt.min, to_date=dt.today()):
     # Limit the start_date
     from_date = APIRequest.objects.order_by('created_at').first().created_at
     # Generate the months between the from_date and to_date, excluding the last month
-    months = get_month_starts(from_date, to_date)[:-2]
+    ## Temporary demo, only process the last month
+    months = get_month_starts(from_date, to_date)[-1:]
     for i, month in enumerate(months):
         month_tz_aware = timezone.make_aware(month, timezone=timezone.get_current_timezone())
         with transaction.atomic():
@@ -80,4 +82,4 @@ def generate_bills(from_date=dt.min, to_date=dt.today()):
                 UserLedger.objects.create(user_id=api_service.owner.id, debit=api_earning.get(api_service.id, 0), billing_period=month_tz_aware, api_service_id=api_service.id, description='Earnings from API usage')
             if calculated_all_totals: print(f'Successfully processed month: {month}')
             else: print(f'Error in calculating total for {month}! Missing logs / unsuccessful regex!')
-    return True
+    return Response({'status': 'success'}, status=200)

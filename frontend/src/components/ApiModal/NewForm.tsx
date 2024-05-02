@@ -31,7 +31,7 @@ function NewForm({actionFunction, passedValues}: NewFormProps) {
         description: 'This API provides random cat facts. Docs available on: https://catfact.ninja/',
         url: 'https://catfact.ninja/',
         url_compatible_name: 'cat-facts',
-        image: 'https://thecatfacts.com/catfacts.png',
+        image: 'https://images.pexels.com/photos/126407/pexels-photo-126407.jpeg?auto=compress&cs=tinysrgb&w=640&h=340&dpr=2',
         api_key: 'abc123',
         active: true,
     }

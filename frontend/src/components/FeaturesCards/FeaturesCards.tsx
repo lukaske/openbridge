@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Container,
   rem,
+  Code
 } from '@mantine/core';
 import { IconHammer, IconApi, IconCoins } from '@tabler/icons-react';
 

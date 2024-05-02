@@ -1414,6 +1414,20 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/generate-bills/:
+    get:
+      operationId: generate_bills_retrieve
+      tags:
+      - generate-bills
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - jwtHeaderAuth: []
+      - jwtCookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
   /api/key-gen/:
     get:
       operationId: key_gen_retrieve

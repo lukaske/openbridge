@@ -5,15 +5,27 @@ import { notifications } from '@mantine/notifications';
 import { useClientBalanceList } from '../../src/api/endpoints/client-balance/client-balance';
 import { useClientLedgerList } from '../../src/api/endpoints/client-ledger/client-ledger';
 import { UserLedger } from '../../src/api/model';
+import { useGenerateBillsRetrieve } from '../../src/api/endpoints/generate-bills/generate-bills';
 
 const Billing: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const {data: balance, refetch: refetchBalance, isFetching: isRefetchingBalance} = useClientBalanceList();
   const {data: billingHistory, refetch: refetchLedger, isFetching: isRefetchingBillingHistory} = useClientLedgerList({page: activePage, ordering: '-billing_period'});
+  const { data: bill, refetch: apiGenerateBills, isFetching } = useGenerateBillsRetrieve({query: {enabled: false}});
 
   const refetchData = () => {
     if (activePage !== 1) setActivePage(1);
     else refetchLedger();
+  };
+
+  const generateBills = () => {
+    apiGenerateBills().then(() => {
+      notifications.show({title: 'Success', message: 'Billing cron job completed successfully', color: 'green'});
+      refetchData();
+      refetchBalance();
+    }).catch((error: any) => {
+      notifications.show({title: 'Error', message: `Failed to start billing cron job: ${JSON.stringify(error.response?.data)}`, color: 'red'});
+    });
   };
 
 
@@ -36,11 +48,12 @@ const Billing: React.FC = () => {
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Group position='apart'>
             <Title order={3}>My Balance: {parseFloat(balance?.balance) || '--'} €</Title>
-            <Button onClick={() => notifications.show({
+            <Button style={{display: 'none'}} onClick={() => notifications.show({
               title: 'Sorry!',
               message: 'Credit card top-up is not yet available.',
               color: 'red',
             })}>Top up with credit card</Button>
+            <Button onClick={generateBills} loading={isFetching}>Run billing cron job</Button>
           </Group>
             <LoadingOverlay visible={isRefetchingBalance} />
           </Card>

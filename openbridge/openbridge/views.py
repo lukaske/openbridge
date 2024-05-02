@@ -13,6 +13,7 @@ from .helpers import generate_fernet_key
 from .raw_queries import getAnalyticsRawQuery, getAnalyticsRawQueryOwner
 from django.db import connection
 from django.db.models import Sum
+from .cron import generate_bills
 
 def root_view(request):
     return HttpResponse("Welcome to OpenBridge.me, visit <a href='https://app.openbridge.me'>app.openbridge.me</a> to get started. <br><br> Access API documentation at <a href='/api/'>http://openbridge.me/api/</a>.")
@@ -172,4 +173,11 @@ class UserLedgerViewset(viewsets.ModelViewSet):
             user_id=self.request.user.id
     )
 
+class GenerateBillingViewset(viewsets.ViewSet):
+    allowed_methods = ['GET']
+    def list(self, request):
+        if request.user.is_anonymous:
+            return JsonResponse({'error': 'Unauthorized'}, status=401)
+        generate_bills()
+        return JsonResponse({'status': 'success'}, status=200)
 

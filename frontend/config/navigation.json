@@ -1,24 +1,6 @@
 {
 "links": [
     { "link": "/", "label": "Home" },
-    { "link": "/marketplace", "label": "API Marketplace" },
-
-    {
-      "link": "#",
-      "label": "Open Bridge",
-      "links": [
-        {
-            "link": "/api",
-            "label": "How to use?" 
-          },
-        {
-        "link": "/docs",
-        "label": "API Docs"
-      },
-      {
-        "link": "/faq",
-        "label": "FAQ"
-    }]
-  }
+    { "link": "/marketplace", "label": "API Marketplace" }
   ]
 }

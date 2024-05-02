@@ -24,11 +24,11 @@ function BillingRuleForm({ actionFunction, passedValues, service }: BillingRuleF
     if (!passedValues) {
         initialValues = {
             api_service: service.id,
-            name: '',
-            description: '',
-            regex: '',
-            price_per: undefined,
-            rule_level: undefined,
+            name: 'Flat billing',
+            description: 'Every request costs the same amount of money.',
+            regex: '.*',
+            price_per: '0.01',
+            rule_level: 1,
         };
     } else {
         initialValues = passedValues as BillingRuleForm;
