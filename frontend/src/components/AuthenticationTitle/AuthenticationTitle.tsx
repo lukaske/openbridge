@@ -51,7 +51,7 @@ export function AuthenticationTitle() {
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
         Haven't registered yet?{' '}
-        <Anchor size="sm" component="button" onClick={() => push('/register')}>
+        <Anchor size="sm" component="button" onClick={() => router.push('/register')}>
             Create account
         </Anchor>
       </Text>
@@ -62,7 +62,7 @@ export function AuthenticationTitle() {
         <PasswordInput label="Password" placeholder="********" required mt="md"  {...form.getInputProps('password')} />
         <Group position="apart" mt="lg">
           <Checkbox label="Remember me" {...form.getInputProps('stayLoggedIn')}  />
-          <Anchor component="button" size="sm" onClick={() => push('/forgot-password')}>
+          <Anchor component="button" size="sm" onClick={() => router.push('/forgot-password')}>
             Forgot password?
           </Anchor>
         </Group>
