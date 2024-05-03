@@ -10,7 +10,7 @@ import { useGenerateBillsRetrieve } from '../../src/api/endpoints/generate-bills
 const Billing: React.FC = () => {
   const [activePage, setActivePage] = useState(1);
   const {data: balance, refetch: refetchBalance, isFetching: isRefetchingBalance} = useClientBalanceList();
-  const {data: billingHistory, refetch: refetchLedger, isFetching: isRefetchingBillingHistory} = useClientLedgerList({page: activePage, ordering: '-billing_period'});
+  const {data: billingHistory, refetch: refetchLedger, isFetching: isRefetchingBillingHistory} = useClientLedgerList({page: activePage, ordering: '-created_at'});
   const { data: bill, refetch: apiGenerateBills, isFetching } = useGenerateBillsRetrieve({query: {enabled: false}});
 
   const refetchData = () => {
@@ -28,8 +28,21 @@ const Billing: React.FC = () => {
     });
   };
 
+  function getMonthAndYearFromDate(date) {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+  
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+  
+    return `${month} ${year}`;
+  }
+
 
   const rows = billingHistory?.results?.map((element: UserLedger) => {
+    console.log(element)
     const credit = parseFloat(element.credit) || 0;
     const debit = parseFloat(element.debit) || 0;
     const balance = debit - credit;  
@@ -37,8 +50,9 @@ const Billing: React.FC = () => {
     <tr key={element.id}>
       <td>{element.id}</td>
       <td>{balance.toFixed(3)}</td>
-      <td>{new Date(element.billing_period).toUTCString()}</td>
-      <td>{`${element.api_service.name} [${element.id}]`}</td>
+      <td>{getMonthAndYearFromDate(new Date(element.billing_period))}</td>
+      <td>{new Date(element.created_at).toUTCString()}</td>
+      <td>{`${element.api_service.name} [${element.api_service.id}]`}</td>
       <td>{element.description}</td>
     </tr>
   )});
@@ -66,6 +80,7 @@ const Billing: React.FC = () => {
                 <th>Tx ID</th>
                 <th>Amount (€)</th>
                 <th>Billing period</th>
+                <th>Date of issue</th>
                 <th>API Service</th>
                 <th>Description</th>
               </tr>
