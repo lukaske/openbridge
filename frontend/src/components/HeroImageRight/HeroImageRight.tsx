@@ -7,7 +7,7 @@ const useStyles = createStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundImage:
-      'linear-gradient(250deg, rgba(130, 201, 30, 0) 0%, #062343 70%), url(./splash.jpeg)',
+      'linear-gradient(250deg, rgba(130, 201, 30, 0) 0%, #062343 70%), url(/splash.jpeg)',
     paddingTop: `calc(${theme.spacing.xl} * 3)`,
     paddingBottom: `calc(${theme.spacing.xl} * 3)`,
   },
