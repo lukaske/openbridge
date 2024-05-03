@@ -139,7 +139,7 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState('Billing');
   const { logout } = useLogout();
-  const { push,  } = useRouter();
+  const { push, refresh  } = useRouter();
   const nextRouter = useNextRouter();
   const {user, refetchUser} = useCurrentUser();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -147,7 +147,7 @@ export function CustomAppShell({ children }: { children: React.ReactNode }) {
   const logoutWrapper = (e: any) => {
     e.preventDefault();
     logout();
-    push('/login');
+    refresh();
   };
 
   useEffect(() => {
