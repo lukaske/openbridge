@@ -10,13 +10,14 @@ import {
   Group,
   Button,
 } from '@mantine/core';
-import {useRouter} from 'next/router';
+import {useRouter} from 'next-nprogress-bar';
 import { useForm } from '@mantine/form';
 import { authService } from '../../services';
 import { useState } from 'react'
 
 export function RegisrationTitle() {
-  const reload = useRouter().reload;
+  const push = useRouter().push;
+  const reload = useRouter().refresh;
   const auth = authService;
   const [loginProcessing, setLoginProcessing] = useState(false);
 
